@@ -9,6 +9,7 @@ const txtGame = './' + folderName + '/game.txt';
 const txtCategory = './' + folderName + '/category.txt';
 const txtEstimate = './' + folderName + '/estimate.txt';
 const txtConsole = './' + folderName + '/console.txt';
+const txtArray = [txtRunner, txtGame, txtConsole, txtCategory, txtEstimate];
 
 var userinput = "";
 var slug = "";
@@ -39,18 +40,20 @@ function apiCall(slug) { //Reads the CSV, writes data to lines. Also adds the le
 }
 
 function initFiles() {
-  if (!fs.existsSync('./' + folderName)){
-    fs.mkdirSync('./' + folderName);
+  if (!fs.existsSync('./' + folderName)) {
+    fs.mkdirSync(folderName);
     console.log('Created Folder!')
-}
+  }
   try {
     if (fs.existsSync(txtCategory)) {
       console.log("No files are created, files already exist.")
     } else {
-      fs.writeFile(txtCategory, '', function(err) {
-        if (err) throw err;
-        console.log('Files are created successfully.');
-      });
+      for (var i = 0; i < txtArray.length; i++) {
+        fs.writeFile(txtArray[i], '', function(err) {
+          if (err) throw err;
+        });
+      }
+      console.log('Files are created successfully.');
     }
   } catch (err) {
     console.error(err)
