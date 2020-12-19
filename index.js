@@ -9,10 +9,14 @@ const txtGame = './' + folderName + '/game.txt';
 const txtCategory = './' + folderName + '/category.txt';
 const txtEstimate = './' + folderName + '/estimate.txt';
 const txtConsole = './' + folderName + '/console.txt';
-const txtArray = [txtRunner, txtGame, txtConsole, txtCategory, txtEstimate];
+const txtArray = [txtRunner, txtGame, txtCategory, txtEstimate, txtConsole];
+var runArray = [];
 
 var userinput = "";
 var slug = "";
+let schedulejson;
+var currentRun = 0;
+
 const getJSON = async url => {
   try {
     const response = await fetch(url);
@@ -27,13 +31,37 @@ const getJSON = async url => {
 
 slug = readline.question('Please post the oengus slug for the marathon: ');
 apiCall(slug);
-initFiles();
+setTimeout(function() {
+  initFiles();
+  writeToFiles(currentRun);
+}, 3000);
+
+function writeToFiles(j) {
+  putData(j);
+  for (var i = 0; i < txtArray.length; i++) {
+    fs.writeFile(txtArray[i], runArray[i], (err) => {
+      if (err) throw err;
+    });
+  }
+}
+
+function putData(j) {
+  console.log(schedulejson.lines.length);
+  if (schedulejson.lines[j].runners.length > 0) {
+    runArray[0] = schedulejson.lines[j].runners[0].username;
+  } else {
+    runArray[0] = ' ';
+  }
+  runArray[1] = schedulejson.lines[j].gameName;
+  runArray[2] = schedulejson.lines[j].categoryName;
+  runArray[3] = schedulejson.lines[j].estimate;
+  runArray[4] = schedulejson.lines[j].console;
+}
 
 function apiCall(slug) { //Reads the CSV, writes data to lines. Also adds the length of the marathon to tableLength;
   console.log("Fetching schedule data from " + slug);
   getJSON("https://oengus.io/api/marathon/" + slug + "/schedule").then(data => {
-    // console.log(data);
-    // lines = data;
+    schedulejson = data;
   }).catch(error => {
     console.error(error);
   });
@@ -49,7 +77,7 @@ function initFiles() {
       console.log("No files are created, files already exist.")
     } else {
       for (var i = 0; i < txtArray.length; i++) {
-        fs.writeFile(txtArray[i], '', function(err) {
+        fs.writeFile(txtArray[i], ' ', function(err) {
           if (err) throw err;
         });
       }
