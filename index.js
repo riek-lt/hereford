@@ -182,7 +182,7 @@ function savefileChecker() {
   for (var i = 0; i < schedulejson.lines.length; i++) {
     if (schedulejson.lines[i].gameName == savedRun) {
       finishSaveCheck = true;
-      console.log('Found similar run (' + colors.red(schedulejson.lines[i].gameName) + ') in marathon equalling saved-run now. Do you want to resume where you left off? (' + colors.green('y') + '/' + colors.green('n') + ')');
+      console.log('Found run in this marathon (' + colors.red(schedulejson.lines[i].gameName) + ') that equals the previous last run. Do you want to resume where you left off? (' + colors.green('y') + '/' + colors.green('n') + ')');
       userinput = readline.question('')
       if (userinput == 'y') {
         currentRun = i;
