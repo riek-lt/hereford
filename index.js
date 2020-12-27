@@ -19,6 +19,11 @@ var userinputsub = "";
 var slug = "";
 let schedulejson;
 var currentRun = 0;
+var helpString = colors.green('"n"') + ' for next run\n' +
+  colors.green('"p"') + ' for previous run\n' +
+  colors.green('"j"') + ' to jump to a run\n' +
+  colors.green('"s"') + 'to go to the start of the marathon\n' +
+  colors.green('"u"') + ' to update made changes to the schedule';
 
 const getJSON = async url => {
   try {
@@ -40,64 +45,70 @@ setTimeout(function() {
   if (userinput == 'y') {
     writeToFiles(0, 1);
   }
-  console.log(colors.green('"n"') + ' for next run\n' +
-    colors.green('"p"') + ' for previous run\n' +
-    colors.green('"j"') + ' to jump to a run');
+  console.log(helpString);
   while (true) {
     console.log('Current run number: ' + colors.green(currentRun));
     userinput = readline.question('Next command? (h for help) ');
     switch (userinput) {
       case 'n':
         console.log("Switching to next run");
-        writeToFiles(currentRun, 'plus');
+        currentRun++;
+        writeToFiles(currentRun+1, 'plus');
         break;
       case 'p':
         console.log("switching to previous run");
-        writeToFiles(currentRun, 'min');
+        currentRun--;
+        writeToFiles(currentRun-1, 'min');
         break;
       case 'h':
-        console.log(colors.green('"n"') + ' for next run\n' +
-          colors.green('"p"') + ' for previous run\n' +
-          colors.green('"j"') + ' to jump to a run\n' +
-          colors.green('"s"') + 'to go to the start of the marathon');
+        console.log(helpString);
         break;
       case 's':
         console.log("Restarting the marathon")
         writeToFiles(0, 0);
+        currentRun = 0;
         break;
       case 'j':
         userinputsub = readline.question('What run do you want to jump to (input a number)\nMax is ' + schedulejson.lines.length + ': ');
         try {
           currentRun = parseInt(userinputsub);
-          writeToFiles(currentRun, currentRun);
+          writeToFiles(currentRun, currentRun + 1);
         } catch (err) {
           console.error(err);
         }
+        break;
+      case 'u':
+        apiCall(slug);
         break;
     }
   }
 }, 3000);
 
 function writeToFiles(j, k) {
-  if (j > schedulejson.lines.length) {
-    console.log('Input is bigger than marathon is long, aborting.')
-  } else {
-    if (k == 'plus') {
-      currentRun++;
-    } else if (k == 'min') {
-      currentRun--;
-    } else if (typeof k == 'number') {
-      currentRun = k;
-    }
-    putData(j);
-    for (var i = 0; i < txtArray.length; i++) {
-      console.log(colors.yellow(txtArray[i]) + colors.cyan(' -> ') + colors.green(runArray[i]));
-      fs.writeFileSync(txtArray[i], runArray[i], (err) => {
-        if (err) throw err;
-        console.log("bla");
-      });
+  if (typeof j == 'number') {
+    if (j > schedulejson.lines.length) {
+      console.log('Input is bigger than marathon is long, aborting.')
+    } else {
+      putData(currentRun);
+      for (var i = 0; i < txtArray.length; i++) {
+        console.log(colors.yellow(txtArray[i]) + colors.cyan(' -> ') + colors.green(runArray[i]));
+        fs.writeFileSync(txtArray[i], runArray[i], (err) => {
+          if (err) throw err;
+          console.log("bla");
+        });
+      }
     }
   }
+  // if (k == 'plus') {
+  //   currentRun = currentRun + 1;
+  // } else if (k == 'min') {
+  //   currentRun = currentRun - 1;
+  // } else if (typeof k == 'number') {
+  //   currentRun = k;
+  //   console.log('Changed to ' + currentRun);
+  // } else {
+  //   console.log(colors.red('NO CHANGING'));
+  // }
 }
 
 function putData(j) {
