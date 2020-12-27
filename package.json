@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/riek-lt/marathon-switcher#readme",
   "dependencies": {
+    "colors": "^1.4.0",
     "fetch": "^1.1.0",
     "fs": "0.0.1-security",
     "node-fetch": "^2.6.1",
