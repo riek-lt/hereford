@@ -33,24 +33,32 @@ slug = readline.question('Please post the oengus slug for the marathon: ');
 apiCall(slug);
 setTimeout(function() {
   initFiles();
-  writeToFiles(currentRun);
+  while (true) {
+    userinput = readline.question('Current run number: ' + currentRun + '\nClick n for next ');
+    if (userinput == 'n') {
+      console.log("Switching to next run")
+      writeToFiles(currentRun);
+      currentRun++;
+    }
+  }
 }, 3000);
 
 function writeToFiles(j) {
   putData(j);
   for (var i = 0; i < txtArray.length; i++) {
-    fs.writeFile(txtArray[i], runArray[i], (err) => {
+    console.log(txtArray[i] + ' -> ' + runArray[i]);
+    fs.writeFileSync(txtArray[i], runArray[i], (err) => {
       if (err) throw err;
+      console.log("bla");
     });
   }
 }
 
 function putData(j) {
-  console.log(schedulejson.lines.length);
   if (schedulejson.lines[j].runners.length > 0) {
     runArray[0] = schedulejson.lines[j].runners[0].username;
   } else {
-    runArray[0] = ' ';
+    runArray[0] = '';
   }
   runArray[1] = schedulejson.lines[j].gameName;
   runArray[2] = schedulejson.lines[j].categoryName;
@@ -84,6 +92,6 @@ function initFiles() {
       console.log('Files are created successfully.');
     }
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
 }
