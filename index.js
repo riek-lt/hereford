@@ -46,12 +46,10 @@ setTimeout(function() {
     switch (userinput) {
       case 'n':
         console.log("Switching to next run");
-        currentRun++;
         writeToFiles(currentRun, 'plus');
         break;
       case 'p':
         console.log("switching to previous run");
-        currentRun--;
         writeToFiles(currentRun, 'min');
         break;
       case 'h':
@@ -61,7 +59,6 @@ setTimeout(function() {
       case 's':
         console.log("Restarting the marathon")
         writeToFiles(0, 0);
-        currentRun = 0;
         break;
       case 'j':
         userinputsub = readline.question('What run do you want to jump to (input a number)\nMax is ' + schedulejson.lines.length + ': ');
@@ -80,6 +77,13 @@ function writeToFiles(j, k) {
   if (j > schedulejson.lines.length) {
     console.log('Input is bigger than marathon is long, aborting.')
   } else {
+    if (k == 'plus') {
+      currentRun++;
+    } else if (k == 'min') {
+      currentRun--;
+    } else if (typeof k == 'number') {
+      currentRun = k;
+    }
     putData(j);
     for (var i = 0; i < txtArray.length; i++) {
       console.log(txtArray[i] + ' -> ' + runArray[i]);
@@ -87,13 +91,6 @@ function writeToFiles(j, k) {
         if (err) throw err;
         console.log("bla");
       });
-    }
-    if (k == 'plus') {
-      currentRun++;
-    } else if (k == 'min') {
-      currentRun--;
-    } else if (typeof k == 'number') {
-      currentRun = k;
     }
   }
 }
