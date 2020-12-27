@@ -71,9 +71,11 @@ setTimeout(function() {
       case 'j':
         userinputsub = readline.question('What run do you want to jump to (input a number)\nMax is ' + schedulejson.lines.length + ': ');
         try {
+          var safety = currentRun;
           currentRun = parseInt(userinputsub);
           writeToFiles(currentRun, currentRun + 1);
         } catch (err) {
+          currentRun = safety;
           console.error(err);
         }
         break;
