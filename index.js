@@ -64,7 +64,7 @@ setTimeout(function() {
         break;
       case 's':
         console.log("Restarting the marathon")
-        writeToFiles(0, 0);
+        writeToFiles(0, 1);
         currentRun = 0;
         break;
       case 'sj':
