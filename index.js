@@ -47,12 +47,12 @@ setTimeout(function() {
       case 'n':
         console.log("Switching to next run");
         currentRun++;
-        writeToFiles(currentRun, plus);
+        writeToFiles(currentRun, 'plus');
         break;
       case 'p':
         console.log("switching to previous run");
         currentRun--;
-        writeToFiles(currentRun, min);
+        writeToFiles(currentRun, 'min');
         break;
       case 'h':
         console.log('"n" for next run\n"p" for previous run' +
