@@ -1,6 +1,7 @@
 var fs = require('fs');
 const readline = require("readline-sync");
 const fetch = require("node-fetch");
+var timeConverter = require('./timeConverter');
 
 //Text files
 const folderName = "textfiles";
@@ -62,7 +63,7 @@ function putData(j) {
   }
   runArray[1] = schedulejson.lines[j].gameName;
   runArray[2] = schedulejson.lines[j].categoryName;
-  runArray[3] = schedulejson.lines[j].estimate;
+  runArray[3] = timeConverter.parseDuration(schedulejson.lines[j].estimate);
   runArray[4] = schedulejson.lines[j].console;
 }
 
