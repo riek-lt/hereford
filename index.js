@@ -14,6 +14,7 @@ const txtArray = [txtRunner, txtGame, txtCategory, txtEstimate, txtConsole];
 var runArray = [];
 
 var userinput = "";
+var userinputsub = "";
 var slug = "";
 let schedulejson;
 var currentRun = 0;
@@ -42,16 +43,26 @@ setTimeout(function() {
   console.log('"n" for next run\n"p" for previous run\n"j" to jump to a run')
   while (true) {
     userinput = readline.question('Current run number: ' + currentRun + '\nNext command? (h for help) ');
-    if (userinput == 'n') {
-      console.log("Switching to next run");
-      currentRun++;
-      writeToFiles(currentRun);
-    } else if (userinput == 'p') {
-      console.log("switching to previous run");
-      currentRun--;
-      writeToFiles(currentRun);
-    } else if (userinput == 'h') {
-      console.log('"n" for next run\n"p" for previous run\n"j" to jump to a run');
+    switch (userinput) {
+      case 'n':
+        console.log("Switching to next run");
+        currentRun++;
+        writeToFiles(currentRun);
+        break;
+      case 'p':
+        console.log("switching to previous run");
+        currentRun--;
+        writeToFiles(currentRun);
+        break;
+      case 'h':
+        console.log('"n" for next run\n"p" for previous run' +
+        '\n"j" to jump to a run\n"s" to go back to run 1\n"j" to jump to a run.');
+        break;
+      case 's':
+        console.log("Restarting the marathon")
+        currentRun = 0;
+        writeToFiles(0);
+        break;
     }
   }
 }, 3000);
