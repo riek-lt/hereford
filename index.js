@@ -38,7 +38,7 @@ setTimeout(function() {
   userinput = readline.question('Start at first run? (y/n)');
   if (userinput == 'y') {
     currentRun = 0;
-    writeToFiles(0);
+    writeToFiles(0, null);
   }
   console.log('"n" for next run\n"p" for previous run\n"j" to jump to a run')
   while (true) {
@@ -47,27 +47,27 @@ setTimeout(function() {
       case 'n':
         console.log("Switching to next run");
         currentRun++;
-        writeToFiles(currentRun);
+        writeToFiles(currentRun, plus);
         break;
       case 'p':
         console.log("switching to previous run");
         currentRun--;
-        writeToFiles(currentRun);
+        writeToFiles(currentRun, min);
         break;
       case 'h':
         console.log('"n" for next run\n"p" for previous run' +
-        '\n"j" to jump to a run\n"s" to go back to run 1\n"j" to jump to a run.');
+          '\n"j" to jump to a run\n"s" to go back to run 1\n"j" to jump to a run.');
         break;
       case 's':
         console.log("Restarting the marathon")
+        writeToFiles(0, 0);
         currentRun = 0;
-        writeToFiles(0);
         break;
-        case 'j':
+      case 'j':
         userinputsub = readline.question('What run do you want to jump to (input a number)\nMax is ' + schedulejson.lines.length + ': ');
         try {
           currentRun = parseInt(userinputsub);
-          writeToFiles(currentRun);
+          writeToFiles(currentRun, currentRun);
         } catch (err) {
           console.error(err);
         }
@@ -76,14 +76,25 @@ setTimeout(function() {
   }
 }, 3000);
 
-function writeToFiles(j) {
-  putData(j);
-  for (var i = 0; i < txtArray.length; i++) {
-    console.log(txtArray[i] + ' -> ' + runArray[i]);
-    fs.writeFileSync(txtArray[i], runArray[i], (err) => {
-      if (err) throw err;
-      console.log("bla");
-    });
+function writeToFiles(j, k) {
+  if (j > schedulejson.lines.length) {
+    console.log('Input is bigger than marathon is long, aborting.')
+  } else {
+    putData(j);
+    for (var i = 0; i < txtArray.length; i++) {
+      console.log(txtArray[i] + ' -> ' + runArray[i]);
+      fs.writeFileSync(txtArray[i], runArray[i], (err) => {
+        if (err) throw err;
+        console.log("bla");
+      });
+    }
+    if (k == 'plus') {
+      currentRun++;
+    } else if (k == 'min') {
+      currentRun--;
+    } else if (typeof k == 'number') {
+      currentRun = k;
+    }
   }
 }
 
