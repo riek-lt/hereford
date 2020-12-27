@@ -34,12 +34,19 @@ slug = readline.question('Please post the oengus slug for the marathon: ');
 apiCall(slug);
 setTimeout(function() {
   initFiles();
+  console.log('"n" for next run\n"p" for previous run\n"j" to jump to a run')
   while (true) {
-    userinput = readline.question('Current run number: ' + currentRun + '\nClick n for next ');
+    userinput = readline.question('Current run number: ' + currentRun + '\nNext command? (h for help) ');
     if (userinput == 'n') {
-      console.log("Switching to next run")
-      writeToFiles(currentRun);
+      console.log("Switching to next run");
       currentRun++;
+      writeToFiles(currentRun);
+    } else if (userinput == 'p') {
+      console.log("switching to previous run");
+      currentRun--;
+      writeToFiles(currentRun);
+    } else if (userinput == 'h') {
+      console.log('"n" for next run\n"p" for previous run\n"j" to jump to a run');
     }
   }
 }, 3000);
