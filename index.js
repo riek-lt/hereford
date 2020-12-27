@@ -43,7 +43,7 @@ slug = readline.question('Please post the oengus slug for the marathon: ');
 apiCall(slug);
 setTimeout(function() {
   initFiles();
-  askFirstRun();
+  // askFirstRun();
   console.log(helpString);
   while (true) {
     console.log('Current run number: ' + colors.green(currentRun));
@@ -155,6 +155,7 @@ function initFiles() {
   try {
     if (fs.existsSync(txtCategory)) {
       console.log("No files are created, files already exist.")
+      savefileChecker();
     } else {
       for (var i = 0; i < txtArray.length; i++) {
         fs.writeFile(txtArray[i], ' ', function(err) {
@@ -170,12 +171,9 @@ function initFiles() {
 
 function askFirstRun() {
   console.log('Start at first run? (' + colors.green('y') + '/' + colors.green('n') + ')');
-  console.log('Or load from where you left off last time (' + colors.green('"l"') + ' from load)');
   userinput = readline.question(' ');
   if (userinput == 'y') {
     writeToFiles(0, 1);
-  } else if (userinput == 'l') {
-    savefileChecker();
   }
 }
 
@@ -186,12 +184,15 @@ function savefileChecker() {
       finishSaveCheck = true;
       console.log('Found similar run (' + colors.red(schedulejson.lines[i].gameName) + ') in marathon equalling saved-run now. Do you want to resume where you left off? (' + colors.green('y') + '/' + colors.green('n') + ')');
       userinput = readline.question('')
-      if (userinput = 'y') {
+      if (userinput == 'y') {
         currentRun = i;
-      } else {}
+      } else {
+        askFirstRun();
+      }
     }
   }
   if (finishSaveCheck) {} else {
     console.log('No similar run found');
+    askFirstRun();
   }
 }
