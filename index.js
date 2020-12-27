@@ -34,6 +34,11 @@ slug = readline.question('Please post the oengus slug for the marathon: ');
 apiCall(slug);
 setTimeout(function() {
   initFiles();
+  userinput = readline.question('Start at first run? (y/n)');
+  if (userinput == 'y') {
+    currentRun = 0;
+    writeToFiles(0);
+  }
   console.log('"n" for next run\n"p" for previous run\n"j" to jump to a run')
   while (true) {
     userinput = readline.question('Current run number: ' + currentRun + '\nNext command? (h for help) ');
