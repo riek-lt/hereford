@@ -1,6 +1,7 @@
 var fs = require('fs');
 const readline = require("readline-sync");
 const fetch = require("node-fetch");
+const colors = require('colors/safe');
 var timeConverter = require('./timeConverter');
 
 //Text files
@@ -30,19 +31,21 @@ const getJSON = async url => {
     return error;
   }
 }
-
 slug = readline.question('Please post the oengus slug for the marathon: ');
 apiCall(slug);
 setTimeout(function() {
   initFiles();
-  userinput = readline.question('Start at first run? (y/n)');
+  console.log('Start at first run? (' + colors.green('y') + '/' + colors.green('n') + ')')
+  userinput = readline.question(' ');
   if (userinput == 'y') {
-    currentRun = 0;
-    writeToFiles(0, null);
+    writeToFiles(0, 1);
   }
-  console.log('"n" for next run\n"p" for previous run\n"j" to jump to a run')
+  console.log(colors.green('"n"') + ' for next run\n' +
+    colors.green('"p"') + ' for previous run\n' +
+    colors.green('"j"') + ' to jump to a run');
   while (true) {
-    userinput = readline.question('Current run number: ' + currentRun + '\nNext command? (h for help) ');
+    console.log('Current run number: ' + colors.green(currentRun));
+    userinput = readline.question('Next command? (h for help) ');
     switch (userinput) {
       case 'n':
         console.log("Switching to next run");
@@ -53,8 +56,10 @@ setTimeout(function() {
         writeToFiles(currentRun, 'min');
         break;
       case 'h':
-        console.log('"n" for next run\n"p" for previous run' +
-          '\n"j" to jump to a run\n"s" to go back to run 1\n"j" to jump to a run.');
+        console.log(colors.green('"n"') + ' for next run\n' +
+          colors.green('"p"') + ' for previous run\n' +
+          colors.green('"j"') + ' to jump to a run\n' +
+          colors.green('"s"') + 'to go to the start of the marathon');
         break;
       case 's':
         console.log("Restarting the marathon")
@@ -86,7 +91,7 @@ function writeToFiles(j, k) {
     }
     putData(j);
     for (var i = 0; i < txtArray.length; i++) {
-      console.log(txtArray[i] + ' -> ' + runArray[i]);
+      console.log(colors.yellow(txtArray[i]) + colors.cyan(' -> ') + colors.green(runArray[i]));
       fs.writeFileSync(txtArray[i], runArray[i], (err) => {
         if (err) throw err;
         console.log("bla");
