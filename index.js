@@ -63,6 +63,15 @@ setTimeout(function() {
         currentRun = 0;
         writeToFiles(0);
         break;
+        case 'j':
+        userinputsub = readline.question('What run do you want to jump to (input a number)\nMax is ' + schedulejson.lines.length + ': ');
+        try {
+          currentRun = parseInt(userinputsub);
+          writeToFiles(currentRun);
+        } catch (err) {
+          console.error(err);
+        }
+        break;
     }
   }
 }, 3000);
