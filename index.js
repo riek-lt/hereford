@@ -19,6 +19,8 @@ var userinputsub = "";
 var slug = "";
 let schedulejson;
 var currentRun = 0;
+var savedRun = "";
+var finishSaveCheck = false;
 var helpString = colors.green('"n"') + ' for next run\n' +
   colors.green('"p"') + ' for previous run\n' +
   colors.green('"sj"') + 'to silent jump to a run without changing text\n' +
@@ -41,11 +43,7 @@ slug = readline.question('Please post the oengus slug for the marathon: ');
 apiCall(slug);
 setTimeout(function() {
   initFiles();
-  console.log('Start at first run? (' + colors.green('y') + '/' + colors.green('n') + ')')
-  userinput = readline.question(' ');
-  if (userinput == 'y') {
-    writeToFiles(0, 1);
-  }
+  askFirstRun();
   console.log(helpString);
   while (true) {
     console.log('Current run number: ' + colors.green(currentRun));
@@ -93,6 +91,9 @@ setTimeout(function() {
         break;
       case 'u':
         apiCall(slug);
+        break;
+      case 'l':
+        savefileChecker();
         break;
     }
   }
@@ -164,5 +165,33 @@ function initFiles() {
     }
   } catch (err) {
     console.error(err);
+  }
+}
+
+function askFirstRun() {
+  console.log('Start at first run? (' + colors.green('y') + '/' + colors.green('n') + ')');
+  console.log('Or load from where you left off last time (' + colors.green('"l"') + ' from load)');
+  userinput = readline.question(' ');
+  if (userinput == 'y') {
+    writeToFiles(0, 1);
+  } else if (userinput == 'l') {
+    savefileChecker();
+  }
+}
+
+function savefileChecker() {
+  savedRun = fs.readFileSync(txtGame);
+  for (var i = 0; i < schedulejson.lines.length; i++) {
+    if (schedulejson.lines[i].gameName == savedRun) {
+      finishSaveCheck = true;
+      console.log('Found similar run (' + colors.red(schedulejson.lines[i].gameName) + ') in marathon equalling saved-run now. Do you want to resume where you left off? (' + colors.green('y') + '/' + colors.green('n') + ')');
+      userinput = readline.question('')
+      if (userinput = 'y') {
+        currentRun = i;
+      } else {}
+    }
+  }
+  if (finishSaveCheck) {} else {
+    console.log('No similar run found');
   }
 }
