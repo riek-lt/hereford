@@ -21,6 +21,7 @@ let schedulejson;
 var currentRun = 0;
 var helpString = colors.green('"n"') + ' for next run\n' +
   colors.green('"p"') + ' for previous run\n' +
+  colors.green('"sj"') + 'to silent jump to a run without changing text\n' +
   colors.green('"j"') + ' to jump to a run\n' +
   colors.green('"s"') + 'to go to the start of the marathon\n' +
   colors.green('"u"') + ' to update made changes to the schedule';
@@ -53,12 +54,12 @@ setTimeout(function() {
       case 'n':
         console.log("Switching to next run");
         currentRun++;
-        writeToFiles(currentRun+1, 'plus');
+        writeToFiles(currentRun + 1, 'plus');
         break;
       case 'p':
         console.log("switching to previous run");
         currentRun--;
-        writeToFiles(currentRun-1, 'min');
+        writeToFiles(currentRun - 1, 'min');
         break;
       case 'h':
         console.log(helpString);
@@ -67,6 +68,17 @@ setTimeout(function() {
         console.log("Restarting the marathon")
         writeToFiles(0, 0);
         currentRun = 0;
+        break;
+      case 'sj':
+        userinputsub = readline.question('What run do you want to jump to silently (input a number)\nMax is ' + schedulejson.lines.length + ': ');
+        try {
+          var safety = currentRun;
+          currentRun = parseInt(userinputsub);
+          console.log('SJ successful. Current run is ' + colors.cyan(schedulejson.lines[currentRun].gameName));
+        } catch (err) {
+          currentRun = safety;
+          console.error(err);
+        }
         break;
       case 'j':
         userinputsub = readline.question('What run do you want to jump to (input a number)\nMax is ' + schedulejson.lines.length + ': ');
