@@ -22,7 +22,11 @@ In the main program, it will wait for your input before it does anything.
 
 Note to jumping: This works by inputting the number of the order it appears in the schedule. For example:
 ![](docs/scheduleexample.png)
-Note that the first run is #0. 
+Note that the first run is #0.
+
+## Future features
+- A more fleshed out GUI
+- 
 
 ## Credits
 This program was made by [Riek-lt](https://twitter.com/riek_lt)
