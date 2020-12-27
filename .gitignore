@@ -1,5 +1,7 @@
+marathon-switcher.exe
 textfiles/
 marswi.exe
+*.exe
 
 # Logs
 logs
