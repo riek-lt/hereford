@@ -2,7 +2,7 @@ var fs = require('fs');
 const readline = require("readline-sync");
 const fetch = require("node-fetch");
 const colors = require('colors/safe');
-var timeConverter = require('./timeConverter');
+const timeConverter = require('./timeConverter');
 
 //Text files
 const folderName = "textfiles";
@@ -17,7 +17,7 @@ var runArray = [];
 var userinput = "";
 var userinputsub = "";
 var slug = "";
-let schedulejson;
+var schedulejson;
 var currentRun = 0;
 var savedRun = "";
 var finishSaveCheck = false;
