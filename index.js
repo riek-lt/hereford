@@ -24,8 +24,9 @@ var finishSaveCheck = false;
 var helpString = colors.green('"n"') + ' for next run\n' +
   colors.green('"p"') + ' for previous run\n' +
   colors.green('"sj"') + 'to silent jump to a run without changing text\n' +
+  colors.green('"sn"') + ' to "silent next" to the next run \n' +
   colors.green('"j"') + ' to jump to a run\n' +
-  colors.green('"s"') + 'to go to the start of the marathon\n' +
+  colors.green('"s"') + ' to go to the start of the marathon\n' +
   colors.green('"u"') + ' to update made changes to the schedule';
 
 const getJSON = async url => {
@@ -39,6 +40,7 @@ const getJSON = async url => {
     return error;
   }
 }
+
 slug = readline.question('Please post the oengus slug for the marathon: ');
 apiCall(slug);
 setTimeout(function() {
@@ -77,6 +79,10 @@ setTimeout(function() {
           currentRun = safety;
           console.error(err);
         }
+        break;
+      case 'sn':
+        currentRun++;
+        console.log('"silent next" successful. Current run is ' + colors.cyan(schedulejson.lines[currentRun].gameName));
         break;
       case 'j':
         userinputsub = readline.question('What run do you want to jump to (input a number)\nMax is ' + schedulejson.lines.length + ': ');

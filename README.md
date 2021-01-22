@@ -17,6 +17,7 @@ In the main program, it will wait for your input before it does anything.
 | p | Goes back to the previous run |
 | j | Jumps and directly writes to a certain run (more info below) |
 | sj | Jumps to a certain run, but doesn't write to files (more info below) |
+| sn | Does a "silent next" to the next run, without writing to files |
 |  s| Restarts the marathon by going to the first run |
 | u | Reloads the marathon. Handy for when new runs got added. |
 
@@ -26,7 +27,7 @@ Note that the first run is #0.
 
 ## Future features
 - A more fleshed out GUI
-- 
+-
 
 ## Credits
 This program was made by [Riek-lt](https://twitter.com/riek_lt)
