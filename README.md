@@ -30,6 +30,7 @@ Note that the first run is #0.
 ## Future features
 - A more fleshed out GUI
 - Horaro integration
+- Where possible automatic stream title/game changes
 
 ## Used in marathons
 - None yet
