@@ -8,17 +8,18 @@ Just download the .exe from [**releases**](https://github.com/riek-lt/marathon-s
 # Usage
 Upon opening, the program asks you for your slug from Oengus. For example, if your URL is `https://oengus.io/marathon/bsgo3`, the slug would be `bsgo3`.
 Afterwards, if this isn't the first start of the program, it checks if the current value of the game file is in the "current" marathon, and prompts you if you want to resume that session. Otherwise, it asks if you want to start from the beginning.
+![](docs/programexample.png)
 
 ## Main loop
 In the main program, it will wait for your input before it does anything.
-|  Input|Function  |
+|  Input | Function  |
 |--|--|
-| n| Continues to the next run |
+| n | Continues to the next run |
 | p | Goes back to the previous run |
 | j | Jumps and directly writes to a certain run (more info below) |
-| sj | Jumps to a certain run, but doesn't write to files (more info below) |
-| sn | Does a "silent next" to the next run, without writing to files |
-|  s| Restarts the marathon by going to the first run |
+| sj | Silent jump, jumps to a certain run, but doesn't write to files (more info below) |
+| sn | Silent next, does a "next" to the next run, without writing to files |
+| s | Restarts the marathon by going to the first run |
 | u | Reloads the marathon. Handy for when new runs got added. |
 
 Note to jumping: This works by inputting the number of the order it appears in the schedule. For example:
@@ -29,6 +30,9 @@ Note that the first run is #0.
 ## Future features
 - A more fleshed out GUI
 - Horaro integration
+
+## Used in marathons
+- None yet
 
 ## Credits
 This program was made by [Riek-lt](https://twitter.com/riek_lt)
