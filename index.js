@@ -1,3 +1,4 @@
+//pkg index.js --output marswi
 var fs = require('fs');
 const readline = require("readline-sync");
 const fetch = require("node-fetch");
@@ -21,13 +22,13 @@ var schedulejson;
 var currentRun = 0;
 var savedRun = "";
 var finishSaveCheck = false;
-var helpString = colors.green('"n"') + ' for next run\n' +
-  colors.green('"p"') + ' for previous run\n' +
-  colors.green('"sj"') + 'to silent jump to a run without changing text\n' +
+var helpString = colors.green('"n"') + '  for next run\n' +
+  colors.green('"p"') + '  for previous run\n' +
+  colors.green('"sj"') + ' to silent jump to a run without changing text\n' +
   colors.green('"sn"') + ' to "silent next" to the next run \n' +
-  colors.green('"j"') + ' to jump to a run\n' +
-  colors.green('"s"') + ' to go to the start of the marathon\n' +
-  colors.green('"u"') + ' to update made changes to the schedule';
+  colors.green('"j"') + '  to jump to a run\n' +
+  colors.green('"s"') + '  to go to the start of the marathon\n' +
+  colors.green('"u"') + '  to update made changes to the schedule';
 
 const getJSON = async url => {
   try {
