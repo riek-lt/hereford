@@ -20,6 +20,7 @@ const txtArray = [txtRunner, txtGame, txtCategory, txtEstimate, txtConsole];
 var userinput = "";
 var userinputsub = "";
 var slug = "";
+var safety = 0;
 // var schedulejson;
 var currentRun = 0;
 var savedRun = "";
@@ -63,31 +64,32 @@ setTimeout(function() {
       case 'sj':
         userinputsub = readline.question('What run do you want to jump to silently (input a number)\nMax is ' + data.scheduleLength + ': ');
         try {
-          var safety = currentRun;
+          safety = currentRun;
           currentRun = parseInt(userinputsub);
-          console.log('SJ successful. Current run is ' + colors.cyan(data.currentRun));
+          console.log('SJ successful. Current run is ' + colors.cyan(data.schedulejson.lines[currentRun].gameName));
         } catch (err) {
           currentRun = safety;
-          console.error(err);
+          // console.error(err);
+          console.error(colors.red('An error occured. Rolling back...'));
         }
         break;
       case 'sn':
         currentRun++;
-        console.log('"silent next" successful. Current run is ' + colors.cyan(data.currentRun));
+        console.log('"silent next" successful. Current run is ' + colors.cyan(data.schedulejson.lines[currentRun].gameName));
         break;
       case 'j':
+        safety = currentRun;
         userinputsub = readline.question('What run do you want to jump to (input a number)\nMax is ' + data.scheduleLength + ': ');
         try {
-          var safety = currentRun;
           currentRun = parseInt(userinputsub);
           writeToFiles(currentRun, currentRun + 1);
         } catch (err) {
           currentRun = safety;
-          console.error(err);
+          console.error(colors.red('An error occured. Rolling back...'));
         }
         break;
       case 'u':
-        schedulejson = discord.apiCall(slug);
+        data.call(slug);
         break;
       case 'l':
         savefileChecker();
@@ -100,6 +102,7 @@ function writeToFiles(j, k) {
   if (typeof j == 'number') {
     if (j > data.scheduleLength) {
       console.log('Input is bigger than marathon is long, aborting.')
+      currentRun = safety;
     } else {
       data.putData(currentRun);
       for (var i = 0; i < txtArray.length; i++) {
@@ -167,7 +170,6 @@ function askFirstRun() {
 
 function savefileChecker() {
   savedRun = fs.readFileSync(txtGame);
-  console.log(data.scheduleLength)
   for (var i = 0; i < data.scheduleLength; i++) {
     if (data.schedulejson.lines[i].gameName == savedRun) {
       finishSaveCheck = true;
