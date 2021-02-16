@@ -4,7 +4,6 @@ const readline = require("readline-sync");
 const fetch = require("node-fetch");
 const colors = require('colors/safe');
 const timeConverter = require('./timeConverter');
-// const discord = require('./discord');
 const data = require('./data');
 
 //Text files
@@ -64,7 +63,7 @@ setTimeout(function() {
         try {
           safety = currentRun;
           currentRun = parseInt(userinputsub);
-          console.log('SJ successful. Current run is ' + colors.cyan(data.schedulejson.lines[currentRun].gameName));
+          console.log('SJ successful. Current run is ' + colors.cyan(data.getRun(currentRun)));
         } catch (err) {
           currentRun = safety;
           // console.error(err);
@@ -73,7 +72,7 @@ setTimeout(function() {
         break;
       case 'sn':
         currentRun++;
-        console.log('"silent next" successful. Current run is ' + colors.cyan(data.schedulejson.lines[currentRun].gameName));
+        console.log('"silent next" successful. Current run is ' + colors.cyan(data.getRun(currentRun)));
         break;
       case 'j':
         safety = currentRun;
@@ -148,9 +147,9 @@ function askFirstRun() {
 function savefileChecker() {
   savedRun = fs.readFileSync(txtGame);
   for (var i = 0; i < data.scheduleLength; i++) {
-    if (data.schedulejson.lines[i].gameName == savedRun) {
+    if (data.getRun(i) == savedRun) {
       finishSaveCheck = true;
-      console.log('Found run in this marathon (' + colors.red(data.schedulejson.lines[i].gameName) + ') that equals the previous last run. Do you want to resume where you left off? (' + colors.green('y') + '/' + colors.green('n') + ')');
+      console.log('Found run in this marathon (' + colors.red(data.getRun(i)) + ') that equals the previous last run. Do you want to resume where you left off? (' + colors.green('y') + '/' + colors.green('n') + ')');
       userinput = readline.question('')
       if (userinput == 'y') {
         currentRun = i;

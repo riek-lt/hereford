@@ -36,5 +36,10 @@ module.exports = {
 
       }, 2000)
     }
+  },
+  getRun: function(currentRun) {
+    if (method === 'discord') {
+      return schedulejson.lines[currentRun].gameName;
+    }
   }
 };
