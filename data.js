@@ -30,7 +30,7 @@ module.exports = {
     discord.apiCall(slug)
     setTimeout(function() {
       schedulejson = discord.schedule;
-      scheduleLength = schedulejson.length;
+      scheduleLength = schedulejson.lines.length;
     }, 2000)
   }
 };
