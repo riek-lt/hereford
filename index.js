@@ -30,11 +30,10 @@ var helpString = colors.green('"n"') + '  for next run\n' +
   colors.green('"s"') + '  to go to the start of the marathon\n' +
   colors.green('"u"') + '  to update made changes to the schedule';
 
-slug = readline.question('Please post the oengus slug for the marathon: ');
+slug = readline.question('Please post the oengus slug OR full horaro URL for the marathon: ');
 data.call(slug);
 setTimeout(function() {
   initFiles();
-  // askFirstRun();
   console.log(helpString);
   while (true) {
     console.log('Current run number: ' + colors.green(currentRun));

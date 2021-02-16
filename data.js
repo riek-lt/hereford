@@ -23,8 +23,8 @@ module.exports = {
       currentRun = runArray[1];
     } else if (method === 'horaro') {
       //TODO Make it find columns automatically
-      if (schedulejson.data.items[j].data > 0) {
-        runArray[0] = schedulejson.data.items[j].runners[0];
+      if (schedulejson.data.items[j].data[0].length >= 0) {
+        runArray[0] = schedulejson.data.items[j].data[0];
       } else {
         runArray[0] = '';
       }

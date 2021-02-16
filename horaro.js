@@ -26,7 +26,6 @@ module.exports = {
     }
     getJSON("https://horaro.org/-/api/v1/events/" + slugA[1] + "/schedules/" + slugA[2]).then(data => {
       schedulejson = data;
-      console.log(schedulejson);
       module.exports.schedule = schedulejson;
     }).catch(error => {
       console.error(error);
