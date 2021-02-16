@@ -31,10 +31,12 @@ module.exports = {
     setTimeout(function() {
       schedulejson = discord.schedule;
       scheduleLength = schedulejson.lines.length;
+
+      module.exports.runArray = runArray;
+      module.exports.scheduleLength = scheduleLength;
+      module.exports.currentRun = currentRun;
+      module.exports.schedulejson = schedulejson;
+      
     }, 2000)
   }
 };
-module.exports.runArray = runArray;
-module.exports.length = scheduleLength;
-module.exports.currentRun = currentRun;
-module.exports.schedulejson = schedulejson;

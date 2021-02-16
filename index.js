@@ -167,6 +167,7 @@ function askFirstRun() {
 
 function savefileChecker() {
   savedRun = fs.readFileSync(txtGame);
+  console.log(data.scheduleLength)
   for (var i = 0; i < data.scheduleLength; i++) {
     if (data.schedulejson.lines[i].gameName == savedRun) {
       finishSaveCheck = true;
