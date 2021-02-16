@@ -15,13 +15,11 @@ const txtCategory = './' + folderName + '/category.txt';
 const txtEstimate = './' + folderName + '/estimate.txt';
 const txtConsole = './' + folderName + '/console.txt';
 const txtArray = [txtRunner, txtGame, txtCategory, txtEstimate, txtConsole];
-// var runArray = [];
 
 var userinput = "";
 var userinputsub = "";
 var slug = "";
 var safety = 0;
-// var schedulejson;
 var currentRun = 0;
 var savedRun = "";
 var finishSaveCheck = false;
@@ -98,6 +96,7 @@ setTimeout(function() {
   }
 }, 3000);
 
+
 function writeToFiles(j, k) {
   if (typeof j == 'number') {
     if (j > data.scheduleLength) {
@@ -114,29 +113,7 @@ function writeToFiles(j, k) {
       }
     }
   }
-  // if (k == 'plus') {
-  //   currentRun = currentRun + 1;
-  // } else if (k == 'min') {
-  //   currentRun = currentRun - 1;
-  // } else if (typeof k == 'number') {
-  //   currentRun = k;
-  //   console.log('Changed to ' + currentRun);
-  // } else {
-  //   console.log(colors.red('NO CHANGING'));
-  // }
 }
-
-// function putData(j) {
-//   if (schedulejson.lines[j].runners.length > 0) {
-//     runArray[0] = schedulejson.lines[j].runners[0].username;
-//   } else {
-//     runArray[0] = '';
-//   }
-//   runArray[1] = schedulejson.lines[j].gameName;
-//   runArray[2] = schedulejson.lines[j].categoryName;
-//   runArray[3] = timeConverter.parseDuration(schedulejson.lines[j].estimate);
-//   runArray[4] = schedulejson.lines[j].console;
-// }
 
 function initFiles() {
   if (!fs.existsSync('./' + folderName)) {
@@ -161,7 +138,7 @@ function initFiles() {
 }
 
 function askFirstRun() {
-  console.log('Start at first run? (' + colors.green('y') + '/' + colors.green('n') + ')');
+  console.log('Start at first run? '+ colors.green('y') +' will write to text files  (' + colors.green('y') + '/' + colors.green('n') + ')');
   userinput = readline.question(' ');
   if (userinput == 'y') {
     writeToFiles(0, 1);

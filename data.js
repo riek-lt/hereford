@@ -7,10 +7,6 @@ var scheduleLength;
 var currentRun;
 var schedulejson;
 
-// module.exports = {
-//
-// };
-
 module.exports = {
   putData: function(j) {
     if (method === 'discord') {
@@ -27,16 +23,18 @@ module.exports = {
     }
   },
   call: function(slug) {
-    discord.apiCall(slug)
-    setTimeout(function() {
-      schedulejson = discord.schedule;
-      scheduleLength = schedulejson.lines.length;
+    if (method === 'discord') {
+      discord.apiCall(slug)
+      setTimeout(function() {
+        schedulejson = discord.schedule;
+        scheduleLength = schedulejson.lines.length;
 
-      module.exports.runArray = runArray;
-      module.exports.scheduleLength = scheduleLength;
-      module.exports.currentRun = currentRun;
-      module.exports.schedulejson = schedulejson;
-      
-    }, 2000)
+        module.exports.runArray = runArray;
+        module.exports.scheduleLength = scheduleLength;
+        module.exports.currentRun = currentRun;
+        module.exports.schedulejson = schedulejson;
+
+      }, 2000)
+    }
   }
 };
