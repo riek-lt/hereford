@@ -16,15 +16,17 @@ var schedulejson;
 module.exports = {
   putData: function(j) {
     if (method === 'discord') {
-      //TODO Get multiple runners and split in multiple text files.
       runArray[0] = schedulejson.lines[j].gameName;
       runArray[1] = schedulejson.lines[j].categoryName;
       runArray[2] = timeConverter.parseDuration(schedulejson.lines[j].estimate);
       runArray[3] = schedulejson.lines[j].console;
-      if (schedulejson.lines[j].runners.length > 0) {
-        runArray[4] = schedulejson.lines[j].runners[0].username;
-      } else {
-        runArray[4] = '';
+      for (var l = 0; l < 4; l++) {
+        runArray[4 + l] = '';
+        try {
+          runArray[4 + l] = schedulejson.lines[j].runners[l].username;
+        } catch (err) {
+
+        }
       }
       currentRun = runArray[0];
     } else if (method === 'horaro') {
