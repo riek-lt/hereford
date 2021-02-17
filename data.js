@@ -11,6 +11,7 @@ var schedulejson;
 module.exports = {
   putData: function(j) {
     if (method === 'discord') {
+      //TODO Get multiple runners and split in multiple text files.
       if (schedulejson.lines[j].runners.length > 0) {
         runArray[0] = schedulejson.lines[j].runners[0].username;
       } else {
@@ -23,6 +24,7 @@ module.exports = {
       currentRun = runArray[1];
     } else if (method === 'horaro') {
       //TODO Make it find columns automatically
+      //TODO also: Split runners in multiple files
       if (schedulejson.data.items[j].data[0].length >= 0) {
         runArray[0] = schedulejson.data.items[j].data[0];
       } else {
