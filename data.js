@@ -8,32 +8,38 @@ var scheduleLength;
 var currentRun;
 var schedulejson;
 
+//0 = gameName
+//1 = Category name
+//2 = estimate
+//3 = console
+//4-8 = usernames (1/4)
 module.exports = {
   putData: function(j) {
     if (method === 'discord') {
       //TODO Get multiple runners and split in multiple text files.
+      runArray[0] = schedulejson.lines[j].gameName;
+      runArray[1] = schedulejson.lines[j].categoryName;
+      runArray[2] = timeConverter.parseDuration(schedulejson.lines[j].estimate);
+      runArray[3] = schedulejson.lines[j].console;
       if (schedulejson.lines[j].runners.length > 0) {
-        runArray[0] = schedulejson.lines[j].runners[0].username;
+        runArray[4] = schedulejson.lines[j].runners[0].username;
       } else {
-        runArray[0] = '';
+        runArray[4] = '';
       }
-      runArray[1] = schedulejson.lines[j].gameName;
-      runArray[2] = schedulejson.lines[j].categoryName;
-      runArray[3] = timeConverter.parseDuration(schedulejson.lines[j].estimate);
-      runArray[4] = schedulejson.lines[j].console;
-      currentRun = runArray[1];
+      currentRun = runArray[0];
     } else if (method === 'horaro') {
       //TODO Make it find columns automatically
       //TODO also: Split runners in multiple files
+      runArray[0] = schedulejson.data.items[j].data[1];
+      runArray[1] = schedulejson.data.items[j].data[2];
+      runArray[2] = timeConverter.parseDuration(schedulejson.data.items[j].length);
+      runArray[3] = schedulejson.data.items[j].data[4];
       if (schedulejson.data.items[j].data[0].length >= 0) {
-        runArray[0] = schedulejson.data.items[j].data[0];
+        runArray[4] = schedulejson.data.items[j].data[0];
       } else {
-        runArray[0] = '';
+        runArray[4] = '';
       }
-      runArray[1] = schedulejson.data.items[j].data[1];
-      runArray[2] = schedulejson.data.items[j].data[2];
-      runArray[3] = timeConverter.parseDuration(schedulejson.data.items[j].length);
-      runArray[4] = schedulejson.data.items[j].data[4];
+      currentRun = runArray[0];
     }
   },
   call: function(slug) {
@@ -64,7 +70,7 @@ module.exports = {
     if (method === 'discord') {
       return schedulejson.lines[currentRun].gameName;
     } else if (method === 'horaro') {
-      return schedulejson.data.items[currentRun].data[1];
+      return schedulejson.data.items[currentRun].data[0];
     }
   }
 };

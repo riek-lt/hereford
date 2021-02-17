@@ -16,7 +16,7 @@ const txtGame = './' + folderName + '/game.txt';
 const txtCategory = './' + folderName + '/category.txt';
 const txtEstimate = './' + folderName + '/estimate.txt';
 const txtConsole = './' + folderName + '/console.txt';
-const txtArray = [txtRunner, txtGame, txtCategory, txtEstimate, txtConsole];
+const txtArray = [txtGame, txtCategory, txtEstimate, txtConsole, txtRunner1, txtRunner2, txtRunner3, txtRunner4];
 
 var userinput = "";
 var userinputsub = "";
