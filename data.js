@@ -7,6 +7,8 @@ var method = "discord";
 var scheduleLength;
 var currentRun;
 var schedulejson;
+var horaroColumns = [];
+var horaroRunners = [];
 
 //0 = gameName
 //1 = Category name
@@ -32,13 +34,29 @@ module.exports = {
     } else if (method === 'horaro') {
       //TODO Make it find columns automatically
       //TODO also: Split runners in multiple files
-      runArray[0] = schedulejson.data.items[j].data[1];
-      runArray[1] = schedulejson.data.items[j].data[2];
+      for (var i = 0; i < 8; i++) {
+        runArray[i] = '';
+      }
+      horaroColumns[0] = schedulejson.data.columns.indexOf('Game');
+      horaroColumns[1] = schedulejson.data.columns.indexOf('Category');
+      horaroColumns[2] = '';
+      horaroColumns[3] = schedulejson.data.columns.indexOf('Console');
+      horaroColumns[4] = schedulejson.data.columns.indexOf('Runners');
+      runArray[0] = schedulejson.data.items[j].data[horaroColumns[0]];
+      runArray[1] = schedulejson.data.items[j].data[horaroColumns[1]];
       runArray[2] = timeConverter.parseDuration(schedulejson.data.items[j].length);
-      runArray[3] = schedulejson.data.items[j].data[4];
-      if (schedulejson.data.items[j].data[0].length >= 0) {
-        runArray[4] = schedulejson.data.items[j].data[0];
-      } else {
+      runArray[3] = schedulejson.data.items[j].data[horaroColumns[3]];
+      try {
+        if (schedulejson.data.items[j].data[horaroColumns[4]] === null) {} else if (schedulejson.data.items[j].data[horaroColumns[4]].length >= 0) {
+          horaroRunners = schedulejson.data.items[j].data[horaroColumns[4]].split(",");
+          for (var i = 0; i < horaroRunners.length; i++) {
+            if (horaroRunners[i].substring(0,1) === ' ') {
+              horaroRunners[i] = horaroRunners[i].slice(1)
+            }
+            runArray[4 + i] = horaroRunners[i];
+          }
+        }
+      } catch {
         runArray[4] = '';
       }
       currentRun = runArray[0];
