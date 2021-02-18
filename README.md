@@ -7,7 +7,8 @@ Just download the .exe from [**releases**](https://github.com/riek-lt/marathon-s
 
 # Usage
 Upon opening, the program asks you for your slug from Oengus or a full Horaro URL. For Oengus' example, if your URL is `https://oengus.io/marathon/bsgo3`, the slug would be `bsgo3`.
-Afterwards, if this isn't the first start of the program, it checks if you got a marathon going on, and prompts you if you want to resume that session. Otherwise, it asks if you want to start from the beginning.
+Afterwards, if this isn't the first start of the program, it checks if you got a marathon going on, and prompts you if you want to resume that session. Otherwise, it asks if you want to start from the beginning. 
+
 ![](docs/programexample.png)
 
 ## Horaro instructions
