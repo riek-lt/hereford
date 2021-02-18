@@ -89,7 +89,7 @@ module.exports = {
     if (method === 'discord') {
       return schedulejson.lines[currentRun].gameName;
     } else if (method === 'horaro') {
-      return schedulejson.data.items[currentRun].data[0];
+      return schedulejson.data.items[currentRun].data[schedulejson.data.columns.indexOf('Game')];
     }
   }
 };
