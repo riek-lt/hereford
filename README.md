@@ -10,6 +10,9 @@ Upon opening, the program asks you for your slug from Oengus or a full Horaro UR
 Afterwards, if this isn't the first start of the program, it checks if you got a marathon going on, and prompts you if you want to resume that session. Otherwise, it asks if you want to start from the beginning.
 ![](docs/programexample.png)
 
+## Horaro instructions
+Currently, for the columns, this program will only work if you name the columns "Game", "Category", "Console" and "Runners". Order doesn't matter, just the string needs to be precise (and case-sensitive). Doesn't work with URLs (yet).
+
 ## Main loop
 In the main program, it will wait for your input before it does anything.
 |  Input | Function  |
