@@ -2,6 +2,7 @@ const discord = require('./discord');
 const horaro = require('./horaro');
 const timeConverter = require('./timeConverter');
 
+const horaroItems = ['Game', 'Category', 'Console', 'Runners']
 var runArray = [];
 var method = "discord";
 var scheduleLength;
@@ -36,11 +37,11 @@ module.exports = {
       for (var i = 0; i < 8; i++) {
         runArray[i] = '';
       }
-      horaroColumns[0] = schedulejson.data.columns.indexOf('Game');
-      horaroColumns[1] = schedulejson.data.columns.indexOf('Category');
+      horaroColumns[0] = schedulejson.data.columns.indexOf(horaroItems[0]);
+      horaroColumns[1] = schedulejson.data.columns.indexOf(horaroItems[1]);
       horaroColumns[2] = '';
-      horaroColumns[3] = schedulejson.data.columns.indexOf('Console');
-      horaroColumns[4] = schedulejson.data.columns.indexOf('Runners');
+      horaroColumns[3] = schedulejson.data.columns.indexOf(horaroItems[2]);
+      horaroColumns[4] = schedulejson.data.columns.indexOf(horaroItems[3]);
       for (var i = 0; i < horaroColumns.length; i++) {
         if (horaroColumns[i] === -1) {
           horaroColumns[i] = 0;
@@ -94,7 +95,7 @@ module.exports = {
     if (method === 'discord') {
       return schedulejson.lines[currentRun].gameName;
     } else if (method === 'horaro') {
-      return schedulejson.data.items[currentRun].data[schedulejson.data.columns.indexOf('Game')];
+      return schedulejson.data.items[currentRun].data[schedulejson.data.columns.indexOf(horaroItems[0])];
     }
   }
 };
