@@ -57,8 +57,8 @@ setTimeout(function() {
         break;
       case 's':
         console.log("Restarting the marathon")
-        writeToFiles(0, 1);
         currentRun = 0;
+        writeToFiles(0, 1);
         break;
       case 'sj':
         userinputsub = readline.question('What run do you want to jump to silently (input a number)\nMax is ' + data.scheduleLength + ': ');

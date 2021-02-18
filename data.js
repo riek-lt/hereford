@@ -97,7 +97,9 @@ module.exports = {
 function methodPick(slug) {
   if (slug.includes('horaro')) {
     method = 'horaro';
+    console.log('Found Horaro schedule');
   } else {
     method = 'discord';
+    console.log('Found Oengus schedule');
   }
 }
