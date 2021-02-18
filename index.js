@@ -106,7 +106,9 @@ function writeToFiles(j, k) {
     } else {
       data.putData(currentRun);
       for (var i = 0; i < txtArray.length; i++) {
-        console.log(colors.yellow(txtArray[i]) + colors.cyan(' -> ') + colors.green(data.runArray[i]));
+        if (data.runArray[i] != '') {
+          console.log(colors.yellow(txtArray[i]) + colors.cyan(' -> ') + colors.green(data.runArray[i]));
+        }
         fs.writeFileSync(txtArray[i], data.runArray[i], (err) => {
           if (err) throw err;
           console.log("bla");
@@ -139,7 +141,7 @@ function initFiles() {
 }
 
 function askFirstRun() {
-  console.log('Start at first run? '+ colors.green('y') +' will write to text files  (' + colors.green('y') + '/' + colors.green('n') + ')');
+  console.log('Start at first run? ' + colors.green('y') + ' will write to text files  (' + colors.green('y') + '/' + colors.green('n') + ')');
   userinput = readline.question(' ');
   if (userinput == 'y') {
     writeToFiles(0, 1);

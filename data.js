@@ -32,8 +32,7 @@ module.exports = {
       }
       currentRun = runArray[0];
     } else if (method === 'horaro') {
-      //TODO Make it find columns automatically
-      //TODO also: Split runners in multiple files
+
       for (var i = 0; i < 8; i++) {
         runArray[i] = '';
       }
