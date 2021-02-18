@@ -41,6 +41,11 @@ module.exports = {
       horaroColumns[2] = '';
       horaroColumns[3] = schedulejson.data.columns.indexOf('Console');
       horaroColumns[4] = schedulejson.data.columns.indexOf('Runners');
+      for (var i = 0; i < horaroColumns.length; i++) {
+        if (horaroColumns[i] === -1) {
+          horaroColumns[i] = 0;
+        }
+      }
       runArray[0] = schedulejson.data.items[j].data[horaroColumns[0]];
       runArray[1] = schedulejson.data.items[j].data[horaroColumns[1]];
       runArray[2] = timeConverter.parseDuration(schedulejson.data.items[j].length);
