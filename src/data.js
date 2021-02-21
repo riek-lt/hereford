@@ -1,10 +1,10 @@
-const discord = require('./schedules/discord');
+const oengus = require('./schedules/oengus');
 const horaro = require('./schedules/horaro');
 const timeConverter = require('./timeConverter');
 
 const horaroItems = ['Game', 'Category', 'Console', 'Runners']
 var runArray = [];
-var method = "discord";
+var method = "oengus";
 var scheduleLength;
 var currentRun;
 var schedulejson;
@@ -18,7 +18,7 @@ var horaroRunners = [];
 //4-8 = usernames (1/4)
 module.exports = {
   putData: function(j) {
-    if (method === 'discord') {
+    if (method === 'oengus') {
       runArray[0] = schedulejson.lines[j].gameName;
       runArray[1] = schedulejson.lines[j].categoryName;
       runArray[2] = timeConverter.parseDuration(schedulejson.lines[j].estimate);
@@ -69,10 +69,10 @@ module.exports = {
   },
   call: function(slug) {
     methodPick(slug);
-    if (method === 'discord') {
-      discord.apiCall(slug)
+    if (method === 'oengus') {
+      oengus.apiCall(slug)
       setTimeout(function() {
-        schedulejson = discord.schedule;
+        schedulejson = oengus.schedule;
         scheduleLength = schedulejson.lines.length;
         module.exports.runArray = runArray;
         module.exports.scheduleLength = scheduleLength;
@@ -92,7 +92,7 @@ module.exports = {
     }
   },
   getRun: function(currentRun) {
-    if (method === 'discord') {
+    if (method === 'oengus') {
       return schedulejson.lines[currentRun].gameName;
     } else if (method === 'horaro') {
       return schedulejson.data.items[currentRun].data[schedulejson.data.columns.indexOf(horaroItems[0])];
@@ -105,7 +105,7 @@ function methodPick(slug) {
     method = 'horaro';
     console.log('Found Horaro schedule');
   } else {
-    method = 'discord';
+    method = 'oengus';
     console.log('Found Oengus schedule');
   }
 }
