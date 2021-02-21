@@ -2,6 +2,8 @@ marathon-switcher.exe
 textfiles/
 marswi.exe
 *.exe
+settings.txt
+src/settings.txt
 
 # Logs
 logs

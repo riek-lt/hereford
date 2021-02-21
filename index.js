@@ -5,6 +5,7 @@ const fetch = require("node-fetch");
 const colors = require('colors/safe');
 const timeConverter = require('./src/timeConverter');
 const data = require('./src/data');
+const settingsFile = require('./src/settings.js');
 
 //Text files
 const folderName = "textfiles";
@@ -140,6 +141,10 @@ function initFiles() {
   } catch (err) {
     console.error(err);
   }
+  if (!fs.existsSync('./settings.txt')) {
+    settingsFile.create();
+  }
+  timeConverter.readSave();
 }
 
 function askFirstRun() {
