@@ -3,8 +3,8 @@ var fs = require('fs');
 const readline = require("readline-sync");
 const fetch = require("node-fetch");
 const colors = require('colors/safe');
-const timeConverter = require('./timeConverter');
-const data = require('./data');
+const timeConverter = require('./src/timeConverter');
+const data = require('./src/data');
 
 //Text files
 const folderName = "textfiles";
@@ -134,6 +134,8 @@ function initFiles() {
         });
       }
       console.log('Files are created successfully.');
+      currentRun = 0;
+      writeToFiles(0, 1);
     }
   } catch (err) {
     console.error(err);

@@ -1,5 +1,5 @@
-const discord = require('./discord');
-const horaro = require('./horaro');
+const discord = require('./schedules/discord');
+const horaro = require('./schedules/horaro');
 const timeConverter = require('./timeConverter');
 
 const horaroItems = ['Game', 'Category', 'Console', 'Runners']
