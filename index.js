@@ -144,7 +144,7 @@ function initFiles() {
   if (!fs.existsSync('./settings.txt')) {
     settingsFile.create();
   }
-  timeConverter.readSave();
+  settingsFile.readSave();
 }
 
 function askFirstRun() {

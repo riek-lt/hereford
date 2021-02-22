@@ -5,6 +5,7 @@ var saveData;
 
 module.exports = {
   parseDuration: function(PT) {
+    timeSetting = settingsFile.timeSetting;
     var output = [];
     var durationInSec = 0;
     var matches = PT.match(/P(?:(\d*)Y)?(?:(\d*)M)?(?:(\d*)W)?(?:(\d*)D)?T?(?:(\d*)H)?(?:(\d*)M)?(?:(\d*)S)?/i);
@@ -43,7 +44,6 @@ module.exports = {
       }
     }
     // Hours extraction
-    console.log(timeSetting)
     if (timeSetting[0].includes('h')) {
       if (timeSetting[0].includes('o')) {
         if (durationInSec > 3599) {
@@ -64,17 +64,6 @@ module.exports = {
       output.push(('0' + durationInSec % 60).slice(-2));
     }
     return output.join(':');
-  },
-  readSave: function() {
-    saveData = fs.readFileSync('./settings.txt', {
-      encoding: 'utf8',
-      flag: 'r'
-    }).split('\n');
-    for (var i = 0; i < saveData.length; i++) {
-      if (saveData[i].substring(0, 11) === 'Time format') {
-        timeSetting = saveData[i].substring(12).split(':');
-      }
-    }
   }
 };
 
