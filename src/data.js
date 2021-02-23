@@ -1,6 +1,7 @@
 const oengus = require('./schedules/oengus');
 const horaro = require('./schedules/horaro');
 const timeConverter = require('./timeConverter');
+const colors = require('colors/safe');
 
 const horaroItems = ['Game', 'Category', 'Console', 'Runners']
 var runArray = [];
@@ -18,25 +19,29 @@ var horaroRunners = [];
 //4-8 = usernames (1/4)
 module.exports = {
   putData: function(j) {
+    for (var i = 0; i < 8; i++) {
+      runArray[i] = '';
+    }
     if (method === 'oengus') {
-      runArray[0] = schedulejson.lines[j].gameName;
-      runArray[1] = schedulejson.lines[j].categoryName;
-      runArray[2] = timeConverter.parseDuration(schedulejson.lines[j].estimate);
-      runArray[3] = schedulejson.lines[j].console;
-      for (var l = 0; l < 4; l++) {
-        runArray[4 + l] = '';
-        try {
-          runArray[4 + l] = schedulejson.lines[j].runners[l].username;
-        } catch (err) {
+      if (schedulejson.lines[j].gameName !== null) {
+        runArray[0] = schedulejson.lines[j].gameName;
+        runArray[1] = schedulejson.lines[j].categoryName;
+        runArray[2] = timeConverter.parseDuration(schedulejson.lines[j].estimate);
+        runArray[3] = schedulejson.lines[j].console;
+        for (var l = 0; l < 4; l++) {
+          runArray[4 + l] = '';
+          try {
+            runArray[4 + l] = schedulejson.lines[j].runners[l].username;
+          } catch (err) {
 
+          }
         }
+        currentRun = runArray[0];
+      } else {
+        console.log(colors.magenta('This might be a setup block, so nothing is written'));
       }
-      currentRun = runArray[0];
     } else if (method === 'horaro') {
 
-      for (var i = 0; i < 8; i++) {
-        runArray[i] = '';
-      }
       horaroColumns[0] = schedulejson.data.columns.indexOf(horaroItems[0]);
       horaroColumns[1] = schedulejson.data.columns.indexOf(horaroItems[1]);
       horaroColumns[2] = '';
@@ -55,7 +60,7 @@ module.exports = {
         if (schedulejson.data.items[j].data[horaroColumns[4]] === null) {} else if (schedulejson.data.items[j].data[horaroColumns[4]].length >= 0) {
           horaroRunners = schedulejson.data.items[j].data[horaroColumns[4]].split(",");
           for (var i = 0; i < horaroRunners.length; i++) {
-            if (horaroRunners[i].substring(0,1) === ' ') {
+            if (horaroRunners[i].substring(0, 1) === ' ') {
               horaroRunners[i] = horaroRunners[i].slice(1)
             }
             runArray[4 + i] = horaroRunners[i];

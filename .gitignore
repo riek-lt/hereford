@@ -4,6 +4,7 @@ marswi.exe
 *.exe
 settings.txt
 src/settings.txt
+settingsriek.txt
 
 # Logs
 logs
