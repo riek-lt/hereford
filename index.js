@@ -7,6 +7,7 @@ const timeConverter = require('./src/timeConverter');
 const data = require('./src/data');
 const settingsFile = require('./src/settings.js');
 
+
 //Text files
 const folderName = "textfiles";
 const txtRunner1 = './' + folderName + '/runner1.txt';
@@ -120,6 +121,10 @@ function writeToFiles(j, k) {
 }
 
 function initFiles() {
+  if (!fs.existsSync('./settings.txt')) {
+    settingsFile.create();
+  }
+  settingsFile.readSave();
   if (!fs.existsSync('./' + folderName)) {
     fs.mkdirSync(folderName);
     console.log('Created Folder!')
@@ -141,10 +146,6 @@ function initFiles() {
   } catch (err) {
     console.error(err);
   }
-  if (!fs.existsSync('./settings.txt')) {
-    settingsFile.create();
-  }
-  settingsFile.readSave();
 }
 
 function askFirstRun() {
