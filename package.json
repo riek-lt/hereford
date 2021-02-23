@@ -28,6 +28,7 @@
     "fs": "0.0.1-security",
     "node-fetch": "^2.6.1",
     "pkg": "^4.4.9",
-    "readline-sync": "^1.4.10"
+    "readline-sync": "^1.4.10",
+    "twitch-api-v5": "^2.0.4"
   }
 }

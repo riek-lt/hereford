@@ -6,6 +6,7 @@ const colors = require('colors/safe');
 const timeConverter = require('./src/timeConverter');
 const data = require('./src/data');
 const settingsFile = require('./src/settings.js');
+const twitchSync = require('./src/twitchSync.js');
 
 
 //Text files
@@ -35,69 +36,75 @@ var helpString = colors.green('"n"') + '  for next run\n' +
   colors.green('"s"') + '  to go to the start of the marathon\n' +
   colors.green('"u"') + '  to update made changes to the schedule';
 
+// test();
 slug = readline.question('Please post the oengus slug OR full horaro URL for the marathon: ');
 data.call(slug);
 setTimeout(function() {
   initFiles();
   console.log(helpString);
-  while (true) {
-    console.log('Current run number: ' + colors.green(currentRun));
-    userinput = readline.question('Next command? (h for help) ');
-    switch (userinput) {
-      case 'n':
-        console.log("Switching to next run");
-        currentRun++;
-        writeToFiles(currentRun + 1, 'plus');
-        break;
-      case 'p':
-        console.log("switching to previous run");
-        currentRun--;
-        writeToFiles(currentRun - 1, 'min');
-        break;
-      case 'h':
-        console.log(helpString);
-        break;
-      case 's':
-        console.log("Restarting the marathon")
-        currentRun = 0;
-        writeToFiles(0, 1);
-        break;
-      case 'sj':
-        userinputsub = readline.question('What run do you want to jump to silently (input a number)\nMax is ' + data.scheduleLength + ': ');
-        try {
-          safety = currentRun;
-          currentRun = parseInt(userinputsub);
-          console.log('SJ successful. Current run is ' + colors.cyan(data.getRun(currentRun)));
-        } catch (err) {
-          currentRun = safety;
-          // console.error(err);
-          console.error(colors.red('An error occured. Rolling back...'));
-        }
-        break;
-      case 'sn':
-        currentRun++;
-        console.log('"silent next" successful. Current run is ' + colors.cyan(data.getRun(currentRun)));
-        break;
-      case 'j':
-        safety = currentRun;
-        userinputsub = readline.question('What run do you want to jump to (input a number)\nMax is ' + data.scheduleLength + ': ');
-        try {
-          currentRun = parseInt(userinputsub);
-          writeToFiles(currentRun, currentRun + 1);
-        } catch (err) {
-          currentRun = safety;
-          console.error(colors.red('An error occured. Rolling back...'));
-        }
-        break;
-      case 'u':
-        data.call(slug);
-        break;
-      case 'l':
-        savefileChecker();
-        break;
-    }
-  }
+  mainLogic();
+  setInterval(function() {
+    mainLogic();
+  }, 7*1000);
 }, 3000);
+
+function mainLogic() {
+  console.log('Current run number: ' + colors.green(currentRun));
+  userinput = readline.question('Next command? (h for help) ');
+  switch (userinput) {
+    case 'n':
+      console.log("Switching to next run");
+      currentRun++;
+      writeToFiles(currentRun + 1, 'plus');
+      break;
+    case 'p':
+      console.log("switching to previous run");
+      currentRun--;
+      writeToFiles(currentRun - 1, 'min');
+      break;
+    case 'h':
+      console.log(helpString);
+      break;
+    case 's':
+      console.log("Restarting the marathon")
+      currentRun = 0;
+      writeToFiles(0, 1);
+      break;
+    case 'sj':
+      userinputsub = readline.question('What run do you want to jump to silently (input a number)\nMax is ' + data.scheduleLength + ': ');
+      try {
+        safety = currentRun;
+        currentRun = parseInt(userinputsub);
+        console.log('SJ successful. Current run is ' + colors.cyan(data.getRun(currentRun)));
+      } catch (err) {
+        currentRun = safety;
+        // console.error(err);
+        console.error(colors.red('An error occured. Rolling back...'));
+      }
+      break;
+    case 'sn':
+      currentRun++;
+      console.log('"silent next" successful. Current run is ' + colors.cyan(data.getRun(currentRun)));
+      break;
+    case 'j':
+      safety = currentRun;
+      userinputsub = readline.question('What run do you want to jump to (input a number)\nMax is ' + data.scheduleLength + ': ');
+      try {
+        currentRun = parseInt(userinputsub);
+        writeToFiles(currentRun, currentRun + 1);
+      } catch (err) {
+        currentRun = safety;
+        console.error(colors.red('An error occured. Rolling back...'));
+      }
+      break;
+    case 'u':
+      data.call(slug);
+      break;
+    case 'l':
+      savefileChecker();
+      break;
+  }
+}
 
 
 function writeToFiles(j, k) {
@@ -115,6 +122,9 @@ function writeToFiles(j, k) {
           if (err) throw err;
           console.log("bla");
         });
+      }
+      if (settingsFile.twitchSync) {
+        // twitchSync.writeGame(data.getRun(currentRun));
       }
     }
   }
