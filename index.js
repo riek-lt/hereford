@@ -45,7 +45,7 @@ setTimeout(function() {
   mainLogic();
   setInterval(function() {
     mainLogic();
-  }, 7*1000);
+  }, 2*1000);
 }, 3000);
 
 function mainLogic() {
@@ -124,7 +124,7 @@ function writeToFiles(j, k) {
         });
       }
       if (settingsFile.twitchSync) {
-        // twitchSync.writeGame(data.getRun(currentRun));
+        twitchSync.writeGame(data.getRun(currentRun));
       }
     }
   }

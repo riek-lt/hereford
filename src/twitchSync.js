@@ -10,7 +10,7 @@ module.exports = {
 
     api.channels.updateChannel({
       auth: settingsFile.oAuthToken,
-      channelID: '26082881',
+      channelID: settingsFile.twitchID,
       game: gameName,
       status: 'Any%'
     }, (err, res) => {
@@ -18,8 +18,8 @@ module.exports = {
         console.log(err);
       } else {
         // console.log(res);
+            console.log("Game on Twitch changed to " + colors.green(gameName))
       }
-    });
-    console.log("Game on Twitch changed to " + colors.green(gameName));
+    });;
   }
 };
