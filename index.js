@@ -35,7 +35,7 @@ var helpString = colors.green('"n"') + '  for next run\n' +
   colors.green('"j"') + '  to jump to a run\n' +
   colors.green('"s"') + '  to go to the start of the marathon\n' +
   colors.green('"u"') + '  to update made changes to the schedule\n' +
-  colors.green('"rs"') + 'to reload the data from settings.txt';
+  colors.green('"rs"') + ' to reload the data from settings.txt';
 
 // test();
 slug = readline.question('Please post the oengus slug OR full horaro URL for the marathon: ');
