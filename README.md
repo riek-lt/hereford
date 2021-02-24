@@ -1,8 +1,12 @@
 # Marathon-switcher
 This program will load up an Oengus or Horaro schedule, and writes it to different text-files for a really low-budget but somewhat professional marathon experience.
 
-# Install
+# Features
+- Automatic Horaro and Oengus schedule import
+- Output to separate text files for use in OBS or other streaming programs.
+- Configurable output for the run's estimate.
 
+# Install
 Just download the .exe from [**releases**](https://github.com/riek-lt/marathon-switcher/releases) and open it. This will create a folder with some text-files in it that you use in OBS. Make sure that it is in a folder that doesn't need special writing permissions.
 
 # Usage
@@ -27,6 +31,7 @@ In the main program, it will wait for your input before it does anything.
 | u | Reloads the marathon. Handy for when new runs got added. |
 
 Note to jumping: This works by inputting the number of the order it appears in the schedule. For example:
+
 ![](docs/scheduleexample.png)  
 
 Note that the first run is #0.
@@ -34,6 +39,7 @@ Note that the first run is #0.
 ## Future features
 - A more fleshed out GUI
 - Where possible automatic stream title/game changes
+- Changing values live from the program
 
 ## Used in marathons
 - None yet
