@@ -20,9 +20,9 @@ var horaroRunners = [];
 module.exports = {
   putData: function(j) {
     for (var i = 0; i < 8; i++) {
-      runArray[i] = '';
+      runArray[i] = ''; //Make sure that all files are emptied before written to again
     }
-    if (method === 'oengus') {
+    if (method === 'oengus') { //Only oengus stuff here
       if (schedulejson.lines[j].gameName !== null) {
         runArray[0] = schedulejson.lines[j].gameName;
         runArray[1] = schedulejson.lines[j].categoryName;
@@ -30,34 +30,35 @@ module.exports = {
         runArray[3] = schedulejson.lines[j].console;
         for (var l = 0; l < 4; l++) {
           runArray[4 + l] = '';
-          try {
+          try {     //Doesn't error the program if run has <4 runners in it
             runArray[4 + l] = schedulejson.lines[j].runners[l].username;
-          } catch (err) {
-
-          }
+          } catch (err) {}
         }
-        currentRun = runArray[0];
+        currentRun = runArray[0];     //gameName is set to currentRun
       } else {
         console.log(colors.magenta('This might be a setup block, so nothing is written'));
       }
-    } else if (method === 'horaro') {
-
+    } else if (method === 'horaro') {     //Horaro stuff often
+      //Since Horaro can have random orders for name, game, category etc, I scan all
+      //names for the columns and assign them in the correct order here. Estimate is set.
       horaroColumns[0] = schedulejson.data.columns.indexOf(horaroItems[0]);
       horaroColumns[1] = schedulejson.data.columns.indexOf(horaroItems[1]);
-      horaroColumns[2] = '';
+      horaroColumns[2] = ''; //Estimate gets defined staticly.
       horaroColumns[3] = schedulejson.data.columns.indexOf(horaroItems[2]);
       horaroColumns[4] = schedulejson.data.columns.indexOf(horaroItems[3]);
       for (var i = 0; i < horaroColumns.length; i++) {
         if (horaroColumns[i] === -1) {
-          horaroColumns[i] = 0;
+          horaroColumns[i] = 0;   //If a field is empty (most often category name), this is done to not crash the program
         }
       }
+      //write to runArray for outside use
       runArray[0] = schedulejson.data.items[j].data[horaroColumns[0]];
       runArray[1] = schedulejson.data.items[j].data[horaroColumns[1]];
       runArray[2] = timeConverter.parseDuration(schedulejson.data.items[j].length);
       runArray[3] = schedulejson.data.items[j].data[horaroColumns[3]];
-      try {
-        if (schedulejson.data.items[j].data[horaroColumns[4]] === null) {} else if (schedulejson.data.items[j].data[horaroColumns[4]].length >= 0) {
+      try {     //This separates users first before it writes them.
+        if (schedulejson.data.items[j].data[horaroColumns[4]] === null) {
+        } else if (schedulejson.data.items[j].data[horaroColumns[4]].length >= 0) {
           horaroRunners = schedulejson.data.items[j].data[horaroColumns[4]].split(",");
           for (var i = 0; i < horaroRunners.length; i++) {
             if (horaroRunners[i].substring(0, 1) === ' ') {
@@ -67,25 +68,25 @@ module.exports = {
           }
         }
       } catch {
-        runArray[4] = '';
+        runArray[4] = ''; //If there's no runners, it just gets set to empty
       }
-      currentRun = runArray[0];
+      currentRun = runArray[0];        //gameName is set to currentRun
     }
   },
-  call: function(slug) {
-    methodPick(slug);
+  call: function(slug) {    //Init input from program.
+    methodPick(slug);      //Checks if schedule is Oengus or Horaro
     if (method === 'oengus') {
-      oengus.apiCall(slug)
-      setTimeout(function() {
-        schedulejson = oengus.schedule;
-        scheduleLength = schedulejson.lines.length;
-        module.exports.runArray = runArray;
+      oengus.apiCall(slug)   //Calls json data to be retrieved
+      setTimeout(function() { //Give time to do an API call
+        schedulejson = oengus.schedule; //All json gets put here.
+        scheduleLength = schedulejson.lines.length; //Amount of runs.
+        module.exports.runArray = runArray;   //Export stuff
         module.exports.scheduleLength = scheduleLength;
         module.exports.currentRun = currentRun;
         module.exports.schedulejson = schedulejson;
       }, 2000)
     } else if (method === 'horaro') {
-      horaro.apiCall(slug);
+      horaro.apiCall(slug);   //Exactly the same as above but horaro
       setTimeout(function() {
         schedulejson = horaro.schedule;
         scheduleLength = schedulejson.data.items.length;
@@ -96,17 +97,17 @@ module.exports = {
       }, 2000)
     }
   },
-  getRun: function(currentRun) {
+  getRun: function(currentRun) {  //This one returns the gamename
     if (method === 'oengus') {
       return schedulejson.lines[currentRun].gameName;
-    } else if (method === 'horaro') {
+    } else if (method === 'horaro') { //Long value since horaro doesn't have a static order
       return schedulejson.data.items[currentRun].data[schedulejson.data.columns.indexOf(horaroItems[0])];
     }
   }
 };
 
-function methodPick(slug) {
-  if (slug.includes('horaro')) {
+function methodPick(slug) {       //Checks whether the input is horaro or oengus
+  if (slug.includes('horaro')) {  //The method is literally "is it a horaro url lol"
     method = 'horaro';
     console.log('Found Horaro schedule');
   } else {
