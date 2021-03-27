@@ -5,14 +5,14 @@ const colors = require('colors/safe');
 
 
 module.exports = {
-  writeGame: function(gameName) {
+  writeGame: function(gameName) { //Writes game to Twitch API
     api.clientID = settingsFile.clientID;
 
     api.channels.updateChannel({
       auth: settingsFile.oAuthToken,
       channelID: settingsFile.twitchID,
-      game: gameName,
-      status: 'Any%'
+      game: gameName,   //Reads gameName
+      status: 'Any%'  //Useless
     }, (err, res) => {
       if (err) {
         console.log(err);

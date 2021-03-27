@@ -1,10 +1,10 @@
 const settingsFile = require('./settings.js');
 const fs = require('fs');
 var timeSetting = [];
-var saveData;
+var saveData;   //Import from settings.js
 
 module.exports = {
-  parseDuration: function(PT) {
+  parseDuration: function(PT) { //Converts ISO to hh:mm:ss
     timeSetting = settingsFile.timeSetting;
     var output = [];
     var durationInSec = 0;
@@ -43,6 +43,7 @@ module.exports = {
         durationInSec += parseInt(matches[parts[i].pos]) * parts[i].multiplier;
       }
     }
+    //Down here is where I work with settings.
     // Hours extraction
     if (timeSetting[0].includes('h')) {
       if (timeSetting[0].includes('o')) {
@@ -68,7 +69,7 @@ module.exports = {
 };
 
 
-
+//Adds a zero to parts that doesn't have 2 0's.
 function extraZero(output) {
   if (timeSetting[0].includes('hh')) {
     output[0] = '0' + output[0];

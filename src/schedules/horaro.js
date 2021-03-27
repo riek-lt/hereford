@@ -33,7 +33,7 @@ module.exports = {
   }
 };
 
-function urlCut(slug) {
+function urlCut(slug) { //Cuts URL and gets rid of // in the URL for the split
   str = slug.substring(10)
 slugA = str.split("/");
 }

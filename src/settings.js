@@ -9,20 +9,22 @@ var twitchSyncText = 'Twitch sync:\nIf you want this program to attempt to sync 
   'To turn this feature on or off, replace the value to a 1 or 0 respectively.\nTwitch Sync=0\n\nFor the Client-ID, go to dev.twitch.tv, log in on the channel, or a channel that has editor rights to the marathon channel, and make an application. Put the Client-ID you receive down here. \nUse "https://twitchapps.com/tokengen/" as Redirect URL\nClient-ID=\n\n' +
   'Second, for the auth key, go to "https://twitchapps.com/tokengen/", use the previous acquired Client-ID and use the scope "channel_editor". Paste the oAuth token down here.\noAuth token=\n\n' +
   'Finally, fill the channel name down here:\nTwitch name=';
+  //Order of things in settingsfile in 1 variable
 // var settingsText = versionnr + timeText + separator + twitchSyncText;
 var settingsText = versionnr + timeText
-var client_id;
+var client_id;    //Twitch client ID for other uses
 
 module.exports = {
-  create: function() {
+  create: function() {    //Create settings file
     console.log('settings.txt created');
     fs.writeFileSync('./settings.txt', settingsText);
   },
-  readSave: function() {
+  readSave: function() {  //Read file
     saveData = fs.readFileSync('./settings.txt', {
       encoding: 'utf8',
       flag: 'r'
     }).split('\n');
+    //Reads every line, and saves data from it
     for (var i = 0; i < saveData.length; i++) {
       if (saveData[i].substring(0, 11) === 'Time format') {
         module.exports.timeSetting = saveData[i].substring(12).split(':');
@@ -42,7 +44,7 @@ module.exports = {
         module.exports.oAuthToken = saveData[i].substring(12);
       }
       if (saveData[i].substring(0, 11) === 'Twitch name') {
-        api.clientID = client_id;
+        api.clientID = client_id; //Sets client ID to the library and retrieves Twitch UserID from Twitch
         api.users.usersByName({
             users: saveData[i].substring(12)
           },
