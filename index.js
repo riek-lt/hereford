@@ -128,9 +128,9 @@ function writeToFiles(j, k) {
           console.log("bla");
         });
       }
-      if (settingsFile.twitchSync) {
-        twitchSync.writeGame(data.getRun(currentRun));
-      }
+      // if (settingsFile.twitchSync) {
+        // twitchSync.writeGame(data.getRun(currentRun));
+      // }
     }
   }
 }
