@@ -34,8 +34,8 @@ var currentRun = 0; // Current run number state
 var savedRun = ""; //String for current game name. Used for save feature
 var finishSaveCheck = false; //??
 var helpString = 'You can use both ' + colors.green('green') + ' letter or words as commands;\n' +
-  colors.green('"n"') + '  for '+ colors.green('next') +' run\n' +
-  colors.green('"p"') + '  for '+ colors.green('previous') + ' run\n' +
+  colors.green('"n"') + '  for ' + colors.green('next') + ' run\n' +
+  colors.green('"p"') + '  for ' + colors.green('previous') + ' run\n' +
   colors.green('"sj"') + ' to ' + colors.green('silent jump') + ' to a run without changing text\n' +
   colors.green('"sn"') + ' to ' + colors.green('silent next') + ' to the next run \n' +
   colors.green('"j"') + '  to ' + colors.green('jump') + ' to a run\n' +
@@ -49,6 +49,7 @@ slug = readline.question('Please post the oengus slug OR full horaro URL for the
 data.call(slug); //Gets all data from the schedule
 setTimeout(function() { //Gives time to do an API call
   initFiles();
+  deck.fill(0);
   console.log(helpString); //Shows commands
   mainLogic();
   setInterval(function() { //This loops through the program
@@ -81,6 +82,7 @@ function mainLogic() {
       console.log("Restarting the marathon")
       currentRun = 0;
       writeToFiles(0, 1); //Starts at the start of the marathon.
+      deck.fill(0);
       break;
     case 'sj':
     case 'silent jump':
@@ -116,7 +118,7 @@ function mainLogic() {
       data.call(slug);
       break;
     case 'l': //Load from save file, just as the check upon program boot
-      savefileChecker();    //TODO: add to menu
+      savefileChecker(); //TODO: add to menu
       break;
     case 'rs': //Reloads settings.txt
     case 'reload':
