@@ -1,6 +1,7 @@
 var fs = require('fs');
 const index = require('../index.js');
 const data = require('./data.js');
+const colors = require('colors/safe');
 
 const folderName = index.folderName;
 const currentGame = './' + folderName + '/deck/currentGame.txt';
@@ -98,7 +99,7 @@ function writeToFiles() {
       });
     } catch (err) {}
   }
-  console.log('Deck Files are updated successfully.');
+  console.log(color.yellow('Deck Files are updated successfully.'));
 }
 
 function clearFiles() {
