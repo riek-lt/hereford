@@ -35,7 +35,6 @@ module.exports = {
             if (err) throw err;
           });
         }
-        console.log('Deck Files are created successfully.');
       }
     } catch (err) {
       console.error(err);
@@ -96,6 +95,7 @@ function writeToFiles() {
       });
     } catch (err) {}
   }
+  console.log('Deck Files are updated successfully.');
 }
 
 function clearFiles() {
