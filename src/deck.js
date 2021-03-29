@@ -49,19 +49,20 @@ module.exports = {
     if (data.method === 'oengus') {
       try {
         for (var i = 0; i < 4; i++) {
-          if ((currentRun +i) < data.scheduleLength) {
-          if (schedulejson.lines[currentRun + i].gameName !== null) {
-            deckruns[(i * 3) + 0] = schedulejson.lines[currentRun + i].gameName;
+          if ((currentRun + i) < data.scheduleLength) {
+            if (schedulejson.lines[currentRun + i].gameName !== null) {
+              deckruns[(i * 3) + 0] = schedulejson.lines[currentRun + i].gameName;
+            }
+            if (schedulejson.lines[currentRun + i].categoryName !== null) {
+              deckruns[(i * 3) + 1] = schedulejson.lines[currentRun + i].categoryName;
+            }
+            if (schedulejson.lines[currentRun + i].runners[0] !== null) {
+              try {
+                deckruns[(i * 3) + 2] = schedulejson.lines[currentRun + i].runners[0].username;
+              } catch (err) {}
+            }
           }
-          if (schedulejson.lines[currentRun + i].categoryName !== null) {
-            deckruns[(i * 3) + 1] = schedulejson.lines[currentRun + i].categoryName;
-          }
-          if (schedulejson.lines[currentRun + i].runners[0] !== null) {
-            try {
-            deckruns[(i * 3) + 2] = schedulejson.lines[currentRun + i].runners[0].username;
-          } catch (err) {}
-          }
-        }}
+        }
       } catch (err) {
         console.error(err);
       }
@@ -75,9 +76,11 @@ module.exports = {
         }
       }
       for (var i = 0; i < 4; i++) {
-        deckruns.push(schedulejson.data.items[currentRun + i].data[horaroColumns[0]]);
-        deckruns.push(schedulejson.data.items[currentRun + i].data[horaroColumns[1]]);
-        deckruns.push(schedulejson.data.items[currentRun + i].data[horaroColumns[2]]);
+        if ((currentRun + i) < data.scheduleLength) {
+          deckruns[(i * 3) + 0] = schedulejson.data.items[currentRun + i].data[horaroColumns[0]];
+          deckruns[(i * 3) + 1] = schedulejson.data.items[currentRun + i].data[horaroColumns[1]];
+          deckruns[(i * 3) + 2] = schedulejson.data.items[currentRun + i].data[horaroColumns[2]];
+        }
       }
     }
     writeToFiles();
