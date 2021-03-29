@@ -33,7 +33,7 @@ var safety = 0; //Is a backup for the run number for if something goes wrong
 var currentRun = 0; // Current run number state
 var savedRun = ""; //String for current game name. Used for save feature
 var finishSaveCheck = false; //??
-var helpString = 'You can use both ' + colors.green('green') + ' letter or words as commands;\n'
+var helpString = 'You can use both ' + colors.green('green') + ' letter or words as commands;\n' +
   colors.green('"n"') + '  for '+ colors.green('next') +' run\n' +
   colors.green('"p"') + '  for '+ colors.green('previous') + ' run\n' +
   colors.green('"sj"') + ' to ' + colors.green('silent jump') + ' to a run without changing text\n' +
@@ -72,7 +72,7 @@ function mainLogic() {
       writeToFiles(currentRun - 1, 'min');
       break;
     case 'h':
-    case 'help';
+    case 'help':
       console.log(helpString);
       break;
     case 's':
