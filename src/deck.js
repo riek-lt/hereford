@@ -31,7 +31,7 @@ module.exports = {
       if (fs.existsSync()) { //Program checks if currentGame exists, otherwise makes it. Not best way ofc
       } else {
         for (var i = 0; i < deckArray.length; i++) {
-          fs.writeFile(deckArray[i], ' ', function(err) {
+          fs.writeFile(deckArray[i], '', function(err) {
             if (err) throw err;
           });
         }
