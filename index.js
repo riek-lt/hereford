@@ -33,14 +33,15 @@ var safety = 0; //Is a backup for the run number for if something goes wrong
 var currentRun = 0; // Current run number state
 var savedRun = ""; //String for current game name. Used for save feature
 var finishSaveCheck = false; //??
-var helpString = colors.green('"n"') + '  for next run\n' +
-  colors.green('"p"') + '  for previous run\n' +
-  colors.green('"sj"') + ' to silent jump to a run without changing text\n' +
-  colors.green('"sn"') + ' to "silent next" to the next run \n' +
-  colors.green('"j"') + '  to jump to a run\n' +
-  colors.green('"s"') + '  to go to the start of the marathon\n' +
-  colors.green('"u"') + '  to update made changes to the schedule\n' +
-  colors.green('"rs"') + ' to reload the data from settings.txt';
+var helpString = 'You can use both ' + colors.green('green') + ' letter or words as commands;\n'
+  colors.green('"n"') + '  for '+ colors.green('next') +' run\n' +
+  colors.green('"p"') + '  for '+ colors.green('previous') + ' run\n' +
+  colors.green('"sj"') + ' to ' + colors.green('silent jump') + ' to a run without changing text\n' +
+  colors.green('"sn"') + ' to ' + colors.green('silent next') + ' to the next run \n' +
+  colors.green('"j"') + '  to ' + colors.green('jump') + ' to a run\n' +
+  colors.green('"s"') + '  to go to the ' + colors.green('start') + ' of the marathon\n' +
+  colors.green('"u"') + '  to ' + colors.green('update') + ' made changes to the schedule\n' +
+  colors.green('"rs"') + ' to ' + colors.green('reload') + ' the data from settings.txt';
 
 // Start of program
 slug = readline.question('Please post the oengus slug OR full horaro URL for the marathon: ');
@@ -59,24 +60,29 @@ function mainLogic() {
   userinput = readline.question('Next command? (h for help) ');
   switch (userinput) {
     case 'n':
+    case 'next':
       console.log("Switching to next run");
       currentRun++;
       writeToFiles(currentRun + 1, 'plus'); //Writes everything to file
       break;
     case 'p':
+    case 'previous':
       console.log("switching to previous run");
       currentRun--;
       writeToFiles(currentRun - 1, 'min');
       break;
     case 'h':
+    case 'help';
       console.log(helpString);
       break;
     case 's':
+    case 'start':
       console.log("Restarting the marathon")
       currentRun = 0;
       writeToFiles(0, 1); //Starts at the start of the marathon.
       break;
     case 'sj':
+    case 'silent jump':
       userinputsub = readline.question('What run do you want to jump to silently (input a number)\nMax is ' + data.scheduleLength + ': ');
       try {
         safety = currentRun; //Backups current run number in case there's an error
@@ -88,10 +94,12 @@ function mainLogic() {
       }
       break;
     case 'sn': //Goes to next run without writing
+    case 'silent next':
       currentRun++;
       console.log('"silent next" successful. Current run is ' + colors.cyan(data.getRun(currentRun)));
       break;
     case 'j':
+    case 'jump':
       safety = currentRun;
       userinputsub = readline.question('What run do you want to jump to (input a number)\nMax is ' + data.scheduleLength + ': ');
       try {
@@ -103,12 +111,14 @@ function mainLogic() {
       }
       break;
     case 'u': //Update data
+    case 'update':
       data.call(slug);
       break;
     case 'l': //Load from save file, just as the check upon program boot
-      savefileChecker();
+      savefileChecker();    //TODO: add to menu
       break;
     case 'rs': //Reloads settings.txt
+    case 'reload':
       settingsFile.readSave();
       console.log('Reloaded savefile');
       break;
