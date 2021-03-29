@@ -98,7 +98,7 @@ function writeToFiles() {
       });
     } catch (err) {}
   }
-  console.log('Deck Files are updated successfully.');
+  console.log(color.yellow('Deck Files are updated successfully.'));
 }
 
 function clearFiles() {
