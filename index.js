@@ -49,7 +49,6 @@ slug = readline.question('Please post the oengus slug OR full horaro URL for the
 data.call(slug); //Gets all data from the schedule
 setTimeout(function() { //Gives time to do an API call
   initFiles();
-  deck.fill(0);
   console.log(helpString); //Shows commands
   mainLogic();
   setInterval(function() { //This loops through the program
@@ -202,6 +201,7 @@ function savefileChecker() {
       userinput = readline.question('')
       if (userinput == 'y') {
         currentRun = i;
+          deck.fill(0);
       } else {
         askFirstRun();
       }

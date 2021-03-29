@@ -57,7 +57,10 @@ module.exports = {
             }
             if (schedulejson.lines[currentRun + i].runners[0] !== null) {
               try {
-                deckruns[(i * 3) + 2] = schedulejson.lines[currentRun + i].runners[0].username;
+                for (var k = 0; k < schedulejson.lines[currentRun + i].runners.length; k++) {
+                  deckruns[(i * 3) + 2] += schedulejson.lines[currentRun + i].runners[k].username + ', ';
+                }
+                deckruns[(i * 3) + 2] = deckruns[(i * 3) + 2].substring(0, deckruns[(i * 3) + 2].length-2);
               } catch (err) {}
             }
           }
