@@ -43,7 +43,7 @@ Note that the first run is #0.
 - Upcoming runs for intermission
 
 ## Used in marathons
-- None yet
+- [Italian Speedrun Marathon Online](https://oengus.io/marathon/ISMO)
 
 ## Credits
 This program was made by [Riek-lt](https://twitter.com/riek_lt)
