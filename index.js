@@ -41,7 +41,8 @@ var helpString = 'You can use both ' + colors.green('green') + ' letter or words
   colors.green('"j"') + '  to ' + colors.green('jump') + ' to a run\n' +
   colors.green('"s"') + '  to go to the ' + colors.green('start') + ' of the marathon\n' +
   colors.green('"u"') + '  to ' + colors.green('update') + ' made changes to the schedule\n' +
-  colors.green('"rs"') + ' to ' + colors.green('reload') + ' the data from settings.txt';
+  colors.green('"rs"') + ' to ' + colors.green('reload') + ' the data from settings.txt\n' +
+  colors.green('"nd"') + ' to go to the ' + colors.green('next deck') + ' of runs in your intermission';
 
 // Start of program
 slug = readline.question('Please post the oengus slug OR full horaro URL for the marathon: ');
@@ -123,6 +124,8 @@ function mainLogic() {
       console.log('Reloaded savefile');
       break;
     case 'ni':
+    case 'nd':
+    case 'next deck':
       deck.fill(currentRun);
   }
 }
