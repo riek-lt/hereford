@@ -114,4 +114,5 @@ function methodPick(slug) {       //Checks whether the input is horaro or oengus
     method = 'oengus';
     console.log('Found Oengus schedule');
   }
+  module.exports.method = method;
 }

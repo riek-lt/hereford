@@ -112,6 +112,8 @@ function mainLogic() {
       settingsFile.readSave();
       console.log('Reloaded savefile');
       break;
+    case 'ni':
+      deck.fill(currentRun);
   }
 }
 
