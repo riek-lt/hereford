@@ -1,4 +1,4 @@
-//pkg index.js --output marswi
+//pkg index.js --output Hereford
 
 const folderName = "textfiles";
 module.exports.folderName = folderName;
