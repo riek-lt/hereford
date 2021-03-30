@@ -1,5 +1,9 @@
 # Hereford
+<<<<<<< HEAD
 ## Speedrun marathon text-switching done easy
+=======
+## Marathon switcher program
+>>>>>>> 4444276bd7c8a48c0692ad8a496d9446bb7d8aa1
 This program will load up an Oengus or Horaro schedule, and writes it to different text-files for a really low-budget but somewhat professional marathon experience.
 
 # Features
