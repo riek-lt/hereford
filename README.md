@@ -8,7 +8,7 @@
 - Gives you text file to show the previous and upcoming 3 runs for use in an intermission/break screen
 
 # Install
-Just download the .exe from [**releases**](https://github.com/riek-lt/marathon-switcher/releases) and open it. This will create a folder with some text-files in it that you use in OBS. Make sure that it is in a folder that doesn't need special writing permissions.
+Just download the .exe from [**releases**](https://github.com/riek-lt/hereford/releases) and open it. This will create a folder with some text-files in it that you use in OBS. Make sure that it is in a folder that doesn't need special writing permissions.
 
 # Usage
 Upon opening, the program asks you for your slug from Oengus or a full Horaro URL. For Oengus' example, if your URL is `https://oengus.io/marathon/bsgo3`, the slug would be `bsgo3`.
