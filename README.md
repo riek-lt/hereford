@@ -1,4 +1,5 @@
-# Marathon-switcher
+# Hereford
+## Marathon switcher program
 This program will load up an Oengus or Horaro schedule, and writes it to different text-files for a really low-budget but somewhat professional marathon experience.
 
 # Features
