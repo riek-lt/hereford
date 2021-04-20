@@ -1,4 +1,5 @@
 # Hereford
+![](docs/logo_small.png)
 ## Speedrun marathon text-switching done easy
 
 # Features
