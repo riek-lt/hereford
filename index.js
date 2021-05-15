@@ -159,6 +159,7 @@ function initFiles() {
   if (!fs.existsSync('./settings.txt')) { //If settings doesn't exist, make one
     settingsFile.create();
   }
+  settingsFile.versionCheck();
   settingsFile.readSave();
   if (!fs.existsSync('./' + folderName)) { //If folder doesn't exist, make one
     fs.mkdirSync(folderName);
@@ -201,7 +202,7 @@ function savefileChecker() {
       userinput = readline.question('')
       if (userinput == 'y') {
         currentRun = i;
-          deck.fill(0);
+        deck.fill(0);
       } else {
         askFirstRun();
       }

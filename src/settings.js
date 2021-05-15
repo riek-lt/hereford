@@ -9,12 +9,13 @@ var twitchSyncText = 'Twitch sync:\nIf you want this program to attempt to sync 
   'To turn this feature on or off, replace the value to a 1 or 0 respectively.\nTwitch Sync=0\n\nFor the Client-ID, go to dev.twitch.tv, log in on the channel, or a channel that has editor rights to the marathon channel, and make an application. Put the Client-ID you receive down here. \nUse "https://twitchapps.com/tokengen/" as Redirect URL\nClient-ID=\n\n' +
   'Second, for the auth key, go to "https://twitchapps.com/tokengen/", use the previous acquired Client-ID and use the scope "channel_editor". Paste the oAuth token down here.\noAuth token=\n\n' +
   'Finally, fill the channel name down here:\nTwitch name=';
-  var horaroNames = 'Horaro names:\nHere you can configure what the names of the columns are with the appropriate data.\nGame=Game\nCategory=Category\nConsole=Console\nRunners=Runners\n'
+  var horaroNames = 'Horaro names:\nHere you can configure what the names of the columns are with the appropriate data.\n\nGame=Game\nCategory=Category\nConsole=Console\nRunners=Runners\n'
   var horaroItems = ['', '', '', '']
   //Order of things in settingsfile in 1 variable
 // var settingsText = versionnr + timeText + separator + twitchSyncText;
 var settingsText = versionnr + timeText + separator + horaroNames;
 var client_id;    //Twitch client ID for other uses
+var updateV2 = separator + horaroNames;
 
 module.exports = {
   create: function() {    //Create settings file
@@ -72,5 +73,16 @@ module.exports = {
       }
     }
     module.exports.horaroItems = horaroItems;
+  },
+  versionCheck: function() {
+    saveData = fs.readFileSync('./settings.txt', {
+      encoding: 'utf8',
+      flag: 'r'
+    }).split('\n');
+    if (saveData[0] !== 'version 2') {
+          fs.writeFileSync('./settings.txt', settingsText);
+          console.log('Rewritten settings.txt, you might want to re-check your earlier-made settings');
+    }
   }
+
 };
