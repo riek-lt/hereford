@@ -1,7 +1,7 @@
 const fs = require('fs');
 var api = require('twitch-api-v5');
 var separator = '\n\n----------------------------\n\n'
-var versionnr = "version 1\n\n"
+var versionnr = "version 2\n\n"
 var timeText = 'Estimate format:\nYou can decide the format for the estimate. Write your desired format as such; hh:mm:ss. ' +
   '\n For the hours, you can put an o after the h\'s to hide the hours if the run is shorter than an hour. Additionally, a double "hh" will result in that the hour is always 2 characters. A single h will produce a single character, if the run is >10 hours. \n' +
   ' You cannot actually omit minutes, sorry!\n Seconds are optional and can be omitted.\nExample inputs: hh:mm, ho:mm:ss, hho:mm, hho:mm:ss  \n\nTime format=h:mm:ss\n\n';
@@ -9,9 +9,11 @@ var twitchSyncText = 'Twitch sync:\nIf you want this program to attempt to sync 
   'To turn this feature on or off, replace the value to a 1 or 0 respectively.\nTwitch Sync=0\n\nFor the Client-ID, go to dev.twitch.tv, log in on the channel, or a channel that has editor rights to the marathon channel, and make an application. Put the Client-ID you receive down here. \nUse "https://twitchapps.com/tokengen/" as Redirect URL\nClient-ID=\n\n' +
   'Second, for the auth key, go to "https://twitchapps.com/tokengen/", use the previous acquired Client-ID and use the scope "channel_editor". Paste the oAuth token down here.\noAuth token=\n\n' +
   'Finally, fill the channel name down here:\nTwitch name=';
+  var horaroNames = 'Horaro names:\nHere you can configure what the names of the columns are with the appropriate data.\nGame=Game\nCategory=Category\nConsole=Console\nRunners=Runners\n'
+  var horaroItems = ['', '', '', '']
   //Order of things in settingsfile in 1 variable
 // var settingsText = versionnr + timeText + separator + twitchSyncText;
-var settingsText = versionnr + timeText
+var settingsText = versionnr + timeText + separator + horaroNames;
 var client_id;    //Twitch client ID for other uses
 
 module.exports = {
@@ -56,6 +58,19 @@ module.exports = {
             }
           });
       }
+      if (saveData[i].substring(0, 4) === 'Game') {
+        horaroItems[0] = saveData[i].substring(5);
+      }
+      if (saveData[i].substring(0, 8) === 'Category') {
+        horaroItems[1] = saveData[i].substring(9);
+      }
+      if (saveData[i].substring(0, 7) === 'Console') {
+        horaroItems[2] = saveData[i].substring(8);
+      }
+      if (saveData[i].substring(0, 7) === 'Runners') {
+        horaroItems[3] = saveData[i].substring(8);
+      }
     }
+    module.exports.horaroItems = horaroItems;
   }
 };

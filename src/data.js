@@ -2,8 +2,9 @@ const oengus = require('./schedules/oengus');
 const horaro = require('./schedules/horaro');
 const timeConverter = require('./timeConverter');
 const colors = require('colors/safe');
+const settingsFile = require('./settings.js');
 
-const horaroItems = ['Game', 'Category', 'Console', 'Runners']
+var horaroItems;
 var runArray = [];
 var method = "oengus";
 var scheduleLength;
@@ -49,6 +50,7 @@ module.exports = {
       } else if (method === 'horaro') { //Horaro stuff often
         //Since Horaro can have random orders for name, game, category etc, I scan all
         //names for the columns and assign them in the correct order here. Estimate is set.
+        horaroItems = settingsFile.horaroItems;
         horaroColumns[0] = schedulejson.data.columns.indexOf(horaroItems[0]);
         horaroColumns[1] = schedulejson.data.columns.indexOf(horaroItems[1]);
         horaroColumns[2] = ''; //Estimate gets defined staticly.
@@ -111,6 +113,7 @@ module.exports = {
           if (method === 'oengus') {
             return schedulejson.lines[currentRun].gameName;
           } else if (method === 'horaro') { //Long value since horaro doesn't have a static order
+            horaroItems = settingsFile.horaroItems;
             return schedulejson.data.items[currentRun].data[schedulejson.data.columns.indexOf(horaroItems[0])];
           }
         }
