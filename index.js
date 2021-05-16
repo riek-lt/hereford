@@ -85,7 +85,7 @@ function mainLogic() {
       break;
     case 'sj':
     case 'silent jump':
-      userinputsub = readline.question('What run do you want to jump to silently (input a number)\nMax is ' + data.scheduleLength + ': ');
+      userinputsub = readline.question('What run do you want to jump to silently (input a number)\nMax is ' + colors.green(data.scheduleLength) + ': ');
       try {
         safety = currentRun; //Backups current run number in case there's an error
         currentRun = parseInt(userinputsub);
@@ -103,7 +103,7 @@ function mainLogic() {
     case 'j':
     case 'jump':
       safety = currentRun;
-      userinputsub = readline.question('What run do you want to jump to (input a number)\nMax is ' + data.scheduleLength + ': ');
+      userinputsub = readline.question('What run do you want to jump to (input a number)\nMax is ' + colors.green(data.scheduleLength) + ': ');
       try {
         currentRun = parseInt(userinputsub);
         writeToFiles(currentRun, currentRun + 1);
