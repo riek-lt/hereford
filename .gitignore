@@ -1,3 +1,6 @@
+# ignore deploys till this is semi done
+deploy/
+
 marathon-switcher.exe
 textfiles/
 marswi.exe

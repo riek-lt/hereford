@@ -4,7 +4,11 @@
   "description": "This program will load up an Oengus schedule, and writes it to different text-files for a really low-budget marathon experience",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webPackThing": "webpack --progress",
+    "start": "webpack && qode ./dist/index.js",
+    "debug": "webpack && qode --inspect ./dist/index.js",
+    "build": "npx nodegui-packer --pack dist"
   },
   "repository": {
     "type": "git",
@@ -23,12 +27,23 @@
   },
   "homepage": "https://github.com/riek-lt/marathon-switcher#readme",
   "dependencies": {
+    "@nodegui/nodegui": "^0.30.2",
     "colors": "^1.4.0",
     "fetch": "^1.1.0",
-    "fs": "0.0.1-security",
     "node-fetch": "^2.6.1",
     "pkg": "^4.4.9",
     "readline-sync": "^1.4.10",
     "twitch-api-v5": "^2.0.4"
+  },
+  "devDependencies": {
+    "@nodegui/packer": "^1.4.1",
+    "@types/node": "^14.14.31",
+    "clean-webpack-plugin": "^3.0.0",
+    "file-loader": "^6.2.0",
+    "native-addon-loader": "^2.0.1",
+    "ts-loader": "^8.0.17",
+    "typescript": "^4.2.2",
+    "webpack": "^5.24.2",
+    "webpack-cli": "^4.5.0"
   }
 }
