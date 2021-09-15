@@ -47,6 +47,7 @@ Note that the first run is #0.
 ## Used in marathons
 - [Italian Speedrun Marathon Online](https://oengus.io/marathon/ISMO)
 - [Support Autism Speed Event (SASE)](https://www.twitch.tv/sase_marathon)
+- [Giochi d'un Fiato](https://www.twitch.tv/videos/1144419727?filter=highlights&sort=time)
 
 ## Credits
 This program was made by [Riek-lt](https://twitter.com/riek_lt)
