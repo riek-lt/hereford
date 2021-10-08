@@ -5,6 +5,8 @@ marswi.exe
 settings.txt
 src/settings.txt
 settingsriek.txt
+old/
+build/
 
 # Logs
 logs
