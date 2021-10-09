@@ -84,8 +84,17 @@ build the project using
 <!-- inside hereford folder -->
 
 ```bash
+wails build
+```
+
+or get a development build with
+
+```bash
 wails build -d
 ```
+
+for debugging you can check out this page:
+https://wails.app/guides/debugging/
 
 ## Credits
 

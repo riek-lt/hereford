@@ -2,6 +2,9 @@ package main
 
 import (
 	_ "embed"
+	"io/ioutil"
+	"log"
+	"net/http"
 
 	"github.com/wailsapp/wails"
 )
@@ -9,6 +12,28 @@ import (
 func basic() string {
 	return "World!"
 }
+
+func fetchApi(url string) string {
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return string(body)
+}
+
+// func fetchUrl(url string) string {
+// 	url += "aaa"
+// 	return url
+// }
 
 //go:embed frontend/public/build/bundle.js
 var js string
@@ -29,5 +54,6 @@ func main() {
 	})
 
 	app.Bind(basic)
+	app.Bind(fetchApi)
 	app.Run()
 }

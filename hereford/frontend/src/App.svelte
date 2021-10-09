@@ -1,20 +1,37 @@
 <script>
-  import HelloWorld from './components/HelloWorld.svelte';
+  import { apiHandler } from './modules/apiHelpers';
+
+  // import HelloWorld from './components/HelloWorld.svelte';
   import logo from './logo.png';
+  import { onMount } from 'svelte';
+
+  let marathonData = {};
+
+  let marathonUrl = '';
+
+  onMount(async () => {});
 </script>
 
-<main>
-  <!-- <div class="App"> -->
-  <!-- <header class="App-header"> -->
-  <!-- <Modal> -->
-  <!-- <img src={logo} class="App-logo" alt="logo" /> -->
-  <p>Welcome to your new <code>wails/svelte</code> project.</p>
-  <!-- <HelloWorld />
-      </Modal> -->
-  <!-- </header> -->
-  <!-- </div> -->
+<header>
+  <h1>hereford</h1>
+</header>
 
-  <input type="text" />
+<main>
+  <p>marathon url</p>
+  <input type="text" bind:value={marathonUrl} />
+  <button
+    on:click={async () => {
+      marathonData = await apiHandler(marathonUrl);
+    }}>Fetch url</button
+  >
+
+  <!-- <img src={logo} class="App-logo" alt="logo" /> -->
+  <p>sample text</p>
+
+  <pre>
+		{ JSON.stringify(marathonData, undefined, 2) }
+	</pre>
+  <!-- </Modal> -->
 
   <button>Next run</button>
   <button>Previous run</button>
@@ -28,31 +45,6 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
-  }
-
-  .App {
-    text-align: center;
-  }
-
-  .App-logo {
-    height: 40vmin;
-    pointer-events: none;
-  }
-
   @media (prefers-reduced-motion: no-preference) {
-  }
-
-  .App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
   }
 </style>
