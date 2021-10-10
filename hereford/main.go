@@ -5,13 +5,10 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/wailsapp/wails"
 )
-
-func basic() string {
-	return "World!"
-}
 
 func fetchApi(url string) string {
 	resp, err := http.Get(url)
@@ -30,10 +27,34 @@ func fetchApi(url string) string {
 	return string(body)
 }
 
-// func fetchUrl(url string) string {
-// 	url += "aaa"
-// 	return url
-// }
+func createFile(path string) {
+	emptyFile, err := os.Create("herefordFiles/test.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	emptyFile.Close()
+}
+
+func writeFile(path string, content string) {
+	// handle file checking
+	err := os.WriteFile(path, []byte(content), 0644)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func fileSetup() {
+	makeDirectoryIfNotExists("herefordFiles")
+}
+
+func makeDirectoryIfNotExists(path string) error {
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		return os.Mkdir(path, os.ModeDir|0755)
+	}
+	return nil
+}
 
 //go:embed frontend/public/build/bundle.js
 var js string
@@ -53,7 +74,9 @@ func main() {
 		Colour:    "#131313",
 	})
 
-	app.Bind(basic)
 	app.Bind(fetchApi)
+	app.Bind(createFile)
+	app.Bind(writeFile)
+	app.Bind(fileSetup)
 	app.Run()
 }

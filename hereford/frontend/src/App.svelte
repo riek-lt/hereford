@@ -9,7 +9,13 @@
 
   let marathonUrl = '';
 
-  onMount(async () => {});
+  onMount(async () => {
+    await window.backend.fileSetup();
+    const fileName = 'herefordFiles/test.txt';
+    await window.backend.createFile(fileName);
+
+    await window.backend.writeFile(fileName, 'aaa aaa \n');
+  });
 </script>
 
 <header>
