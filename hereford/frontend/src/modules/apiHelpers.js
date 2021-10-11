@@ -1,3 +1,5 @@
+import { currentDeck } from '../store';
+
 export async function apiHandler(url = '') {
   // regexp to match a valid url
   const re =
@@ -10,7 +12,7 @@ export async function apiHandler(url = '') {
   if (url.match(urlMatch) !== null) {
     // valid url
 
-    // if url is http replace with https
+    // upgrade url from http to https
     if (url.indexOf('http') === 0 && url.indexOf('https') !== 0) {
       url = url.replace('http', 'https');
     }
@@ -19,42 +21,75 @@ export async function apiHandler(url = '') {
       // Oengus example URL: https://oengus.io/marathon/bsg2021
       // API example URL: https://oengus.io/api/marathons/bsg2021/schedule
 
-      // if url contains api > don't modify
+      let fetchUrl = url;
+      // if url doesn't contain api > modify to api url
+      if (!url.includes('/api/')) {
+        const slugs = url.split('/'); // get the slugs
+        fetchUrl = `https://oengus.io/api/marathons/${slugs[4]}/schedule`;
+      }
 
-      const slugs = url.split('/'); // get the slugs
-      const fetchUrl = `https://oengus.io/api/marathons/${slugs[4]}/schedule`;
+      let data = await window.backend.fetchApi(fetchUrl);
+      data = JSON.parse(data);
 
-      const data = await window.backend.fetchApi(fetchUrl);
+      let tempDeck = [];
+      data.lines.forEach((el) => {
+        let runners = el.runners.map((el) => {
+          return el.username;
+        });
 
-      console.log(data);
-      console.log(typeof data);
+        tempDeck.push({
+          name: runners.join(', '),
+          game: el.gameName,
+          category: el.categoryName,
+        });
+      });
 
-      return JSON.parse(data);
+      currentDeck.set(tempDeck);
+
+      return data;
     }
 
     if (url.includes('horaro')) {
       // HORARO example URL: https://horaro.org/uksg/uksgwin21
       // API example URL: https://horaro.org/-/api/v1/events/uksg/schedules/uksgwin21
 
-      const slugs = url.split('/');
-      const fetchUrl = `https://horaro.org/-/api/v1/events/${slugs[2]}/schedules/${slugs[3]}`;
+      let fetchUrl = url;
 
-      const data = await window.backend.fetchApi(fetchUrl);
+      if (!url.includes('/api/')) {
+        const slugs = url.split('/');
+        fetchUrl = `https://horaro.org/-/api/v1/events/${slugs[3]}/schedules/${slugs[4]}`;
+      }
 
-      console.log(data);
+      let data = await window.backend.fetchApi(fetchUrl);
+      data = JSON.parse(data);
 
-      return JSON.parse(data);
+      // lowercase column values
+      const columns = data.data.columns.map((el) => el.toLowerCase());
+
+      // get data indexes
+      const runnerIndex = columns.indexOf('runner');
+      const gameIndex = columns.indexOf('game');
+      const categoryIndex = columns.indexOf('category');
+
+      let tempDeck = [];
+      data.data.items.forEach((el) => {
+        tempDeck.push({
+          name: el.data[runnerIndex],
+          game: el.data[gameIndex],
+          category: el.data[categoryIndex],
+        });
+      });
+
+      currentDeck.set(tempDeck);
+
+      return data;
     }
   } else {
     // non valid url
-    // try url as a slug for horao
+    // try url as a slug for oengus
   }
 
-  // do regex stuff to url
-  // see if Oengus url
-  // see if Horaro  url
-  // upgrade http to https
   // add https if needed (check for /)
   // default (slug) to oengus > could also try to fetch both and see what happens
-  // feedback: please enter a valid url or slug
+  // user feedback: please enter a valid url or slug
 }

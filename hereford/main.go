@@ -28,7 +28,7 @@ func fetchApi(url string) string {
 }
 
 func createFile(path string) {
-	emptyFile, err := os.Create("herefordFiles/test.txt")
+	emptyFile, err := os.Create(path)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -47,6 +47,15 @@ func writeFile(path string, content string) {
 
 func fileSetup() {
 	makeDirectoryIfNotExists("herefordFiles")
+
+	createFile("herefordFiles/category.txt")
+	createFile("herefordFiles/console.txt")
+	createFile("herefordFiles/estimate.txt")
+	createFile("herefordFiles/game.txt")
+	createFile("herefordFiles/runner1.txt")
+	createFile("herefordFiles/runner2.txt")
+	createFile("herefordFiles/runner3.txt")
+	createFile("herefordFiles/runner4.txt")
 }
 
 func makeDirectoryIfNotExists(path string) error {

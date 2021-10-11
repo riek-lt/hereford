@@ -4,6 +4,9 @@
   // import HelloWorld from './components/HelloWorld.svelte';
   import logo from './logo.png';
   import { onMount } from 'svelte';
+  import SettingsMenu from './components/SettingsMenu.svelte';
+
+  import { currentDeck } from './store';
 
   let marathonData = {};
 
@@ -11,10 +14,8 @@
 
   onMount(async () => {
     await window.backend.fileSetup();
-    const fileName = 'herefordFiles/test.txt';
+    const fileName = 'herefordFiles/settings.json';
     await window.backend.createFile(fileName);
-
-    await window.backend.writeFile(fileName, 'aaa aaa \n');
   });
 </script>
 
@@ -32,15 +33,32 @@
   >
 
   <!-- <img src={logo} class="App-logo" alt="logo" /> -->
-  <p>sample text</p>
 
+  <h2>current deck:</h2>
   <pre>
-		{ JSON.stringify(marathonData, undefined, 2) }
+		{ JSON.stringify($currentDeck, undefined, 2) }
 	</pre>
-  <!-- </Modal> -->
 
-  <button>Next run</button>
-  <button>Previous run</button>
+  <!-- move some of these to advanced dropdown? -->
+  <button on:click={() => {}}>Next run</button>
+  <button on:click={() => {}}>Previous run</button>
+  <button on:click={() => {}}>Jump to run</button>
+  <button on:click={() => {}}>Silent jump to run</button>
+  <button on:click={() => {}}>Silent next run</button>
+  <button on:click={() => {}}>Back to start</button>
+  <button on:click={() => {}}>reload runs</button>
+  <button on:click={() => {}}>Load next deck</button>
+
+  <!-- | n | Continues to the **next** run | -->
+  <!-- | p | Goes back to the **previous** run | -->
+  <!-- | j | makes you **jump** and write to a certain run (more info below) | -->
+  <!-- | sj | **Silent jump**, jumps to a certain run, but doesn't write to files (more info below) | -->
+  <!-- | sn | **Silent next**, does a "next" to the next run, without writing to files | -->
+  <!-- | s | Go back to the **start** of the marathon | -->
+  <!-- | u | Makes you **reload**. Handy for when new runs got added. | -->
+  <!-- | nd | Loads in the **next deck**. | -->
+
+  <SettingsMenu />
 </main>
 
 <style>
