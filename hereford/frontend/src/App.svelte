@@ -1,16 +1,39 @@
 <script>
   import { apiHandler } from './modules/apiHelpers';
+  import { currentDeck } from './store';
 
   // import HelloWorld from './components/HelloWorld.svelte';
   import logo from './logo.png';
   import { onMount } from 'svelte';
   import SettingsMenu from './components/SettingsMenu.svelte';
 
-  import { currentDeck } from './store';
-
   let marathonData = {};
 
   let marathonUrl = '';
+
+  let deckIndex = 0;
+
+  let jumpIndex = 0;
+
+  // write current run to files
+  async function writeFiles() {
+    await window.backend.writeFile(
+      'herefordFiles/runner1.txt',
+      $currentDeck[deckIndex].runner
+    );
+    await window.backend.writeFile(
+      'herefordFiles/game.txt',
+      $currentDeck[deckIndex].game
+    );
+    await window.backend.writeFile(
+      'herefordFiles/category.txt',
+      $currentDeck[deckIndex].category
+    );
+  }
+
+  function clamp(min, max, value) {
+    return Math.min(Math.max(value, min), max);
+  }
 
   onMount(async () => {
     await window.backend.fileSetup();
@@ -34,20 +57,68 @@
 
   <!-- <img src={logo} class="App-logo" alt="logo" /> -->
 
-  <h2>current deck:</h2>
+  <h2>current run:</h2>
   <pre>
-		{ JSON.stringify($currentDeck, undefined, 2) }
+		{ JSON.stringify($currentDeck[deckIndex], undefined, 2) }
 	</pre>
 
+  <!-- <h2>deck</h2>
+  <pre>
+		{ JSON.stringify($currentDeck, undefined, 2) }
+	</pre> -->
+
   <!-- move some of these to advanced dropdown? -->
-  <button on:click={() => {}}>Next run</button>
-  <button on:click={() => {}}>Previous run</button>
-  <button on:click={() => {}}>Jump to run</button>
-  <button on:click={() => {}}>Silent jump to run</button>
-  <button on:click={() => {}}>Silent next run</button>
-  <button on:click={() => {}}>Back to start</button>
-  <button on:click={() => {}}>reload runs</button>
-  <button on:click={() => {}}>Load next deck</button>
+  <div>
+    <button
+      on:click={() => {
+        deckIndex = deckIndex > 1 ? deckIndex-- : 0;
+        writeFiles();
+      }}>Previous run</button
+    >
+    <button
+      on:click={() => {
+        deckIndex < $currentDeck.length ? deckIndex++ : $currentDeck.length;
+        writeFiles();
+      }}>Next run</button
+    >
+
+    <button
+      on:click={() => {
+        deckIndex < $currentDeck.length ? deckIndex++ : $currentDeck.length;
+      }}>Silent next run</button
+    >
+  </div>
+
+  <div>
+    <label for="jumpIndex">Jump to index</label><br />
+    <input id="jumpIndex" type="number" bind:value={jumpIndex} />
+    <button
+      on:click={() => {
+        deckIndex = clamp(0, $currentDeck.length - 1, jumpIndex);
+        writeFiles();
+      }}>Jump to run</button
+    >
+
+    <button
+      on:click={() => {
+        deckIndex = clamp(0, $currentDeck.length - 1, jumpIndex);
+      }}>Silent jump to run</button
+    >
+  </div>
+
+  <div>
+    <button
+      on:click={() => {
+        deckIndex = 0;
+      }}>Back to start</button
+    >
+    <button
+      on:click={async () => {
+        marathonData = await apiHandler(marathonUrl);
+      }}>reload runs</button
+    >
+  </div>
+  <!-- <button on:click={() => {}}>Load next deck</button> -->
 
   <!-- | n | Continues to the **next** run | -->
   <!-- | p | Goes back to the **previous** run | -->

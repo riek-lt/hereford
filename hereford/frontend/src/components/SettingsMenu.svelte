@@ -8,6 +8,8 @@
 </script>
 
 <div>
+  <h3>settings</h3>
+
   <label for="time">Time format</label>
   <input id="time" type="text" bind:value={time} />
 
