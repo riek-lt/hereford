@@ -28,12 +28,14 @@ func fetchApi(url string) string {
 }
 
 func createFile(path string) {
-	emptyFile, err := os.Create(path)
-	if err != nil {
-		log.Fatal(err)
-	}
+	if !fileExists(path) {
+		emptyFile, err := os.Create(path)
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	emptyFile.Close()
+		emptyFile.Close()
+	}
 }
 
 func writeFile(path string, content string) {
@@ -43,6 +45,15 @@ func writeFile(path string, content string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func fileExists(path string) bool {
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		// path/to/whatever does not exist
+		return false
+	}
+
+	return true
 }
 
 func fileSetup() {
