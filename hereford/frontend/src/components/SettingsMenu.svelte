@@ -1,4 +1,6 @@
 <script>
+  import { settings } from '../store';
+
   export let open;
 
   // get these values from settings file if there is one
@@ -40,7 +42,7 @@
 
     <button
       on:click={() => {
-        const settings = {
+        $settings = {
           time,
           game,
           category,
@@ -49,7 +51,7 @@
         };
 
         const fileName = 'herefordFiles/settings.json';
-        window.backend.writeFile(fileName, JSON.stringify(settings));
+        window.backend.writeFile(fileName, JSON.stringify($settings));
       }}>Save settings</button
     >
   </div>

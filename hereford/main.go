@@ -39,12 +39,27 @@ func createFile(path string) {
 }
 
 func writeFile(path string, content string) {
-	// handle file checking
+	// create file if doesn't exist
+	if !fileExists(path) {
+		createFile(path)
+	}
+
 	err := os.WriteFile(path, []byte(content), 0644)
 
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func readFile(path string) string {
+	content, err := ioutil.ReadFile(path)
+
+	if err != nil {
+		log.Fatal(err)
+		return ""
+	}
+
+	return string(content)
 }
 
 func fileExists(path string) bool {
@@ -57,7 +72,7 @@ func fileExists(path string) bool {
 }
 
 func fileSetup() {
-	makeDirectoryIfNotExists("herefordFiles")
+	createDirectory("herefordFiles")
 
 	createFile("herefordFiles/category.txt")
 	createFile("herefordFiles/console.txt")
@@ -67,9 +82,13 @@ func fileSetup() {
 	createFile("herefordFiles/runner2.txt")
 	createFile("herefordFiles/runner3.txt")
 	createFile("herefordFiles/runner4.txt")
+
+	createFile("herefordFiles/settings.json")
+
+	createDirectory("herefordFiles/upcomming")
 }
 
-func makeDirectoryIfNotExists(path string) error {
+func createDirectory(path string) error {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		return os.Mkdir(path, os.ModeDir|0755)
 	}
@@ -98,5 +117,6 @@ func main() {
 	app.Bind(createFile)
 	app.Bind(writeFile)
 	app.Bind(fileSetup)
+	app.Bind(readFile)
 	app.Run()
 }

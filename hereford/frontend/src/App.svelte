@@ -1,6 +1,7 @@
 <script>
   import { apiHandler } from './modules/apiHelpers';
-  import { currentDeck } from './store';
+  import { clamp } from './modules/utils';
+  import { currentDeck, settings } from './store';
 
   import logo from './logo.png';
   import { onMount } from 'svelte';
@@ -11,6 +12,8 @@
   let deckIndex = 0;
   let jumpIndex = 0;
   let settingsOpen = false;
+
+  let marathonData;
 
   // write current run to files
   async function writeFiles() {
@@ -28,20 +31,20 @@
     );
   }
 
-  function clamp(min, max, value) {
-    return Math.min(Math.max(value, min), max);
-  }
-
   onMount(async () => {
+    // on app start
     await window.backend.fileSetup();
-    const fileName = 'herefordFiles/settings.json';
-    await window.backend.createFile(fileName);
+
+    // get setting content
+    settings.set(
+      JSON.parse(await window.backend.readFile('herefordFiles/settings.json'))
+    );
   });
 </script>
 
 <header>
+  <img src={logo} alt="logo" />
   <h1>hereford</h1>
-  <!-- <img src={logo} class="App-logo" alt="logo" /> -->
 </header>
 
 <main>
@@ -49,6 +52,7 @@
     class="settingButton"
     on:click={() => {
       settingsOpen = !settingsOpen;
+      console.log($settings);
     }}
   >
     <svg
@@ -172,9 +176,27 @@
     font-size: 18px;
   }
 
-  h1,
+  h1 {
+    margin: 0;
+  }
+
   h2 {
     margin-top: 0;
+  }
+
+  header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    margin-bottom: 1.25rem;
+  }
+
+  header img {
+    height: 3rem;
+    width: auto;
+
+    margin-right: 16px;
   }
 
   .marathonUrl {
