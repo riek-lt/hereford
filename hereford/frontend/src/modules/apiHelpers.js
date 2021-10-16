@@ -37,11 +37,20 @@ export async function apiHandler(url = '') {
           return el.username;
         });
 
-        tempDeck.push({
-          name: runners.join(', '),
-          game: el.gameName,
-          category: el.categoryName,
-        });
+        if (el.runners.length > 0 && el.categoryName) {
+          tempDeck.push({
+            runners: runners,
+            game: el.gameName,
+            category: el.categoryName,
+          });
+        } else {
+          // this is probably some sort of setup block
+          tempDeck.push({
+            runners: [],
+            game: el.setupBlockText,
+            category: '',
+          });
+        }
       });
 
       currentDeck.set(tempDeck);
@@ -74,7 +83,7 @@ export async function apiHandler(url = '') {
       let tempDeck = [];
       data.data.items.forEach((el) => {
         tempDeck.push({
-          name: el.data[runnerIndex],
+          runners: [el.data[runnerIndex]],
           game: el.data[gameIndex],
           category: el.data[categoryIndex],
         });
@@ -86,10 +95,8 @@ export async function apiHandler(url = '') {
     }
   } else {
     // non valid url
-    // try url as a slug for oengus
+    // TODO try url as a slug for oengus
   }
 
-  // add https if needed (check for /)
-  // default (slug) to oengus > could also try to fetch both and see what happens
   // user feedback: please enter a valid url or slug
 }

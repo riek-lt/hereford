@@ -55,6 +55,8 @@
       }}>Save settings</button
     >
   </div>
+
+  <!-- option to disable upcomming updates -->
 {/if}
 
 <style>

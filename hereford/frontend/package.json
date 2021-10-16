@@ -3,7 +3,7 @@
   "author": "Vuurvos1",
   "scripts": {
     "build": "rollup -c",
-    "serve": "rollup -c -w",
+    "dev": "rollup -c -w",
     "start": "sirv public"
   },
   "devDependencies": {

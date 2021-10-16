@@ -15,12 +15,23 @@
 
   let marathonData;
 
+  // TODO rename to update files?
+  // TODO make some of these awaits promise all?
   // write current run to files
   async function writeFiles() {
-    await window.backend.writeFile(
-      'herefordFiles/runner1.txt',
-      $currentDeck[deckIndex].runner
-    );
+    // current run
+    for (let i = 0; i < 4; i++) {
+      if ($currentDeck[deckIndex].runners[i]) {
+        await window.backend.writeFile(
+          `herefordFiles/runner${i}.txt`,
+          $currentDeck[deckIndex].runners[i]
+        );
+      } else {
+        // clear file if no runner
+        await window.backend.writeFile(`herefordFiles/runner${i}.txt`, '');
+      }
+    }
+
     await window.backend.writeFile(
       'herefordFiles/game.txt',
       $currentDeck[deckIndex].game
@@ -29,6 +40,38 @@
       'herefordFiles/category.txt',
       $currentDeck[deckIndex].category
     );
+
+    // upcomming runs
+    // loop from 1 to 4
+    for (let i = 1; i < 5; i++) {
+      if ($currentDeck[deckIndex + i]) {
+        await window.backend.writeFile(
+          `herefordFiles/upcomming/${i}category.txt`,
+          $currentDeck[deckIndex + i]?.category
+        );
+        await window.backend.writeFile(
+          `herefordFiles/upcomming/${i}game.txt`,
+          $currentDeck[deckIndex + i].game
+        );
+        await window.backend.writeFile(
+          `herefordFiles/upcomming/${i}runners.txt`,
+          $currentDeck[deckIndex + i].runners.join(', ')
+        );
+      } else {
+        await window.backend.writeFile(
+          `herefordFiles/upcomming/${i}category.txt`,
+          ''
+        );
+        await window.backend.writeFile(
+          `herefordFiles/upcomming/${i}game.txt`,
+          ''
+        );
+        await window.backend.writeFile(
+          `herefordFiles/upcomming/${i}runners.txt`,
+          ''
+        );
+      }
+    }
   }
 
   onMount(async () => {
@@ -52,7 +95,6 @@
     class="settingButton"
     on:click={() => {
       settingsOpen = !settingsOpen;
-      console.log($settings);
     }}
   >
     <svg
@@ -65,7 +107,6 @@
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class="feather feather-settings"
       ><circle cx="12" cy="12" r="3" /><path
         d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
       /></svg
@@ -85,26 +126,36 @@
   </div>
 
   <h2>current run:</h2>
-  {#if $currentDeck.length > 0}
-    <pre>
-		{ JSON.stringify($currentDeck[deckIndex], undefined, 2) }
-	</pre>
+  {#if $currentDeck[deckIndex] && !$currentDeck[deckIndex].category}
+    <p>This is probably a setup block</p>
+    <p><span>Game </span>{$currentDeck[deckIndex].game}</p>
+  {:else if $currentDeck.length > 0}
+    <p><span>Game </span>{$currentDeck[deckIndex].game}</p>
+    <p><span>Category </span>{$currentDeck[deckIndex].category}</p>
+    <p><span>Runner(s) </span>{$currentDeck[deckIndex].runners.join(', ')}</p>
+
+    <!-- <pre>
+      { JSON.stringify($currentDeck[deckIndex], undefined, 2) }
+	  </pre> -->
   {:else}
-    <p>no deck detected</p>
+    <p>No deck detected</p>
   {/if}
 
-  <!-- move some of these to advanced dropdown? -->
   <div>
     <button
       on:click={() => {
-        deckIndex = deckIndex > 1 ? deckIndex-- : 0;
-        writeFiles();
+        if ($currentDeck.length > 0) {
+          deckIndex > 0 ? deckIndex-- : 0;
+          writeFiles();
+        }
       }}>Previous run</button
     >
     <button
       on:click={() => {
-        deckIndex < $currentDeck.length ? deckIndex++ : $currentDeck.length;
-        writeFiles();
+        if ($currentDeck.length > 0) {
+          deckIndex < $currentDeck.length ? deckIndex++ : $currentDeck.length;
+          writeFiles();
+        }
       }}>Next run</button
     >
 
