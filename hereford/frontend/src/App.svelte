@@ -74,14 +74,23 @@
     }
   }
 
+  let settingJson = {};
+
   onMount(async () => {
     // on app start
     await window.backend.fileSetup();
 
-    // get setting content
-    settings.set(
-      JSON.parse(await window.backend.readFile('herefordFiles/settings.json'))
+    settingJson = JSON.parse(
+      await window.backend.readFile('herefordFiles/settings.json')
     );
+
+    if (
+      settingJson &&
+      Object.keys(settingJson).length !== 0 &&
+      Object.getPrototypeOf(settingJson) === Object.prototype
+    ) {
+      settings.set(settingJson);
+    }
   });
 </script>
 

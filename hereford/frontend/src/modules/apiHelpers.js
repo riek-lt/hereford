@@ -94,8 +94,38 @@ export async function apiHandler(url = '') {
       return data;
     }
   } else {
-    // non valid url
-    // TODO try url as a slug for oengus
+    // non valid url, try as a slug
+    // TODO combine this with other oengus code
+
+    const fetchUrl = `https://oengus.io/api/marathons/${url}/schedule`;
+    let data = await window.backend.fetchApi(fetchUrl);
+    data = JSON.parse(data);
+
+    let tempDeck = [];
+    data.lines.forEach((el) => {
+      let runners = el.runners.map((el) => {
+        return el.username;
+      });
+
+      if (el.runners.length > 0 && el.categoryName) {
+        tempDeck.push({
+          runners: runners,
+          game: el.gameName,
+          category: el.categoryName,
+        });
+      } else {
+        // this is probably some sort of setup block
+        tempDeck.push({
+          runners: [],
+          game: el.setupBlockText,
+          category: '',
+        });
+      }
+    });
+
+    currentDeck.set(tempDeck);
+
+    return data;
   }
 
   // user feedback: please enter a valid url or slug

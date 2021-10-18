@@ -4,11 +4,7 @@
   export let open;
 
   // get these values from settings file if there is one
-  let time = 'h:mm:ss',
-    game = 'Game',
-    category = 'Category',
-    console = 'Console',
-    runners = 'Runners';
+  let time = 'h:mm:ss';
 </script>
 
 {#if open}
@@ -22,34 +18,26 @@
 
     <div>
       <label for="game">Game</label>
-      <input id="game" type="text" bind:value={game} />
+      <input id="game" type="text" bind:value={$settings.game} />
     </div>
 
     <div>
       <label for="category">Category</label>
-      <input id="category" type="text" bind:value={category} />
+      <input id="category" type="text" bind:value={$settings.category} />
     </div>
 
     <div>
       <label for="console">Console</label>
-      <input id="console" type="text" bind:value={console} />
+      <input id="console" type="text" bind:value={$settings.console} />
     </div>
 
     <div>
       <label for="runners">Runners</label>
-      <input id="runners" type="text" bind:value={runners} />
+      <input id="runners" type="text" bind:value={$settings.runners} />
     </div>
 
     <button
       on:click={() => {
-        $settings = {
-          time,
-          game,
-          category,
-          console,
-          runners,
-        };
-
         const fileName = 'herefordFiles/settings.json';
         window.backend.writeFile(fileName, JSON.stringify($settings));
       }}>Save settings</button
