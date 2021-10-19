@@ -9,6 +9,7 @@
 
 {#if open}
   <div class="settings">
+    <!-- add close button -->
     <h3>settings</h3>
 
     <label for="time">Time format</label>
@@ -64,5 +65,13 @@
 
     border-radius: 0.25rem;
     border: 2px solid #000;
+  }
+
+  .settings p {
+    margin-bottom: 8px;
+  }
+
+  .settings > div {
+    margin-bottom: 12px;
   }
 </style>

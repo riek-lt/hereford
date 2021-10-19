@@ -236,6 +236,26 @@
     font-size: 18px;
   }
 
+  :global(input) {
+    background: none;
+
+    padding: 5px 11px;
+    border: 1px solid #000;
+    border-radius: 4px;
+  }
+
+  :global(button) {
+    padding: 6px 12px;
+    background-color: #11fda9;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  :global(button:hover) {
+    background-color: #01e393;
+  }
+
   h1 {
     margin: 0;
   }
@@ -266,24 +286,6 @@
   .marathonUrl input {
     width: 80%;
     margin-right: 12px;
-  }
-
-  input[type='text'] {
-    padding: 5px 11px;
-    border: 2px solid #000;
-    border-radius: 4px;
-  }
-
-  button {
-    padding: 6px 12px;
-    background-color: #11fda9;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background-color: #01e393;
   }
 
   .settingButton {
