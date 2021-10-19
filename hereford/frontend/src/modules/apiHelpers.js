@@ -1,4 +1,5 @@
-import { currentDeck } from '../store';
+import { get } from 'svelte/store';
+import { currentDeck, settings } from '../store';
 
 export async function apiHandler(url = '') {
   // regexp to match a valid url
@@ -76,9 +77,11 @@ export async function apiHandler(url = '') {
       const columns = data.data.columns.map((el) => el.toLowerCase());
 
       // get data indexes
-      const runnerIndex = columns.indexOf('runner');
-      const gameIndex = columns.indexOf('game');
-      const categoryIndex = columns.indexOf('category');
+      const runnerIndex = columns.indexOf(get(settings).runners.toLowerCase());
+      const gameIndex = columns.indexOf(get(settings).game.toLowerCase());
+      const categoryIndex = columns.indexOf(
+        get(settings).category.toLowerCase()
+      );
 
       let tempDeck = [];
       data.data.items.forEach((el) => {
