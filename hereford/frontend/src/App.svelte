@@ -43,7 +43,7 @@
 
     // upcomming runs
     // loop from 1 to 4
-    for (let i = 1; i < 5; i++) {
+    for (let i = 1; i <= 4; i++) {
       if ($currentDeck[deckIndex + i]) {
         await window.backend.writeFile(
           `herefordFiles/upcomming/${i}category.txt`,
@@ -208,8 +208,6 @@
       >
     </div>
   </Collapsable>
-
-  <!-- <button on:click={() => {}}>Load next deck</button> -->
 
   <!-- | n | Continues to the **next** run | -->
   <!-- | p | Goes back to the **previous** run | -->
