@@ -218,7 +218,12 @@
   <!-- | u | Makes you **reload**. Handy for when new runs got added. | -->
   <!-- | nd | Loads in the **next deck**. | -->
 
-  <SettingsMenu open={settingsOpen} />
+  <SettingsMenu
+    open={settingsOpen}
+    on:close={() => {
+      settingsOpen = false;
+    }}
+  />
 </main>
 
 <style>
