@@ -41,6 +41,14 @@
       $currentDeck[deckIndex].category
     );
 
+    // TODO convert estimate to real time while fetching api/before write
+    if ($currentDeck[deckIndex].estimate) {
+      await window.backend.writeFile(
+        'herefordFiles/estimate.txt',
+        $currentDeck[deckIndex].estimate
+      );
+    }
+
     // upcomming runs
     // loop from 1 to 4
     for (let i = 1; i <= 4; i++) {

@@ -8,7 +8,7 @@ Speedrun marathon text-switching made easy
 
 - Automatic Horaro and Oengus schedule import
 - Output to separate text files for use in OBS or other streaming programs
-- Configurable output for the run's estimate
+- Configurable output for the run's estimate (only for Oengus marathons)
 - Gives you text file to show the previous and upcoming 3 runs for use in an intermission/break screen
 
 ## Install

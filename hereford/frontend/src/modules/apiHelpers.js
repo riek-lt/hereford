@@ -1,5 +1,6 @@
 import { get } from 'svelte/store';
 import { currentDeck, settings } from '../store';
+import { convertISO8601duration, formatTime } from './utils';
 
 export async function apiHandler(url = '') {
   // regexp to match a valid url
@@ -43,6 +44,10 @@ export async function apiHandler(url = '') {
             runners: runners,
             game: el.gameName,
             category: el.categoryName,
+            estimate: formatTime(
+              convertISO8601duration(el.estimate),
+              get(settings).time
+            ),
           });
         } else {
           // this is probably some sort of setup block
@@ -115,6 +120,10 @@ export async function apiHandler(url = '') {
           runners: runners,
           game: el.gameName,
           category: el.categoryName,
+          estimate: formatTime(
+            convertISO8601duration(el.estimate),
+            get(settings).time
+          ),
         });
       } else {
         // this is probably some sort of setup block
