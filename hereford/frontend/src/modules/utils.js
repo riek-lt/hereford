@@ -2,7 +2,7 @@ export function clamp(min, max, value) {
   return Math.min(Math.max(value, min), max);
 }
 
-// convert iso 8601 curation to object
+// convert iso 8601 duration to object
 export function convertISO8601duration(isoString = '') {
   const re =
     /(-)?P(?:([.,\d]+)Y)?(?:([.,\d]+)M)?(?:([.,\d]+)W)?(?:([.,\d]+)D)?T(?:([.,\d]+)H)?(?:([.,\d]+)M)?(?:([.,\d]+)S)?/;
@@ -27,11 +27,11 @@ export function formatTime(time, format) {
   let outputArr = [];
   order.forEach((el) => {
     if (el.charAt(0) == 'h') {
-      outputArr.push(`${time.hours.toString().padStart(el.length, '0')}`);
+      outputArr.push(time.hours.toString().padStart(el.length, '0'));
     } else if (el.charAt(0) == 'm') {
-      outputArr.push(`${time.minutes.toString().padStart(el.length, '0')}`);
+      outputArr.push(time.minutes.toString().padStart(el.length, '0'));
     } else if (el.charAt(0) == 's') {
-      outputArr.push(`${time.seconds.toString().padStart(el.length, '0')}`);
+      outputArr.push(time.seconds.toString().padStart(el.length, '0'));
     }
   });
 
