@@ -8,4 +8,5 @@ export const settings = writable({
   category: 'Category',
   console: 'Console',
   runners: 'Runners',
+  marathonUrl: '',
 });

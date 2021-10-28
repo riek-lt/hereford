@@ -11,39 +11,54 @@
   let marathonUrl = '';
   let deckIndex = 0;
   let jumpIndex = 0;
+  let silentJumpIndex = 0;
   let settingsOpen = false;
 
-  let marathonData;
+  let previousMarathon = false;
 
-  // TODO rename to update files?
-  // TODO make some of these awaits promise all?
+  import { readable } from 'svelte/store';
+  import Modal from './components/Modal.svelte';
+  // export const network = readable({
+  //   fetchApi: window.backend.fetchApi,
+  // });
+
+  export const fileSystem = readable({
+    createFile: window.backend.createFile,
+    deleteFile: '',
+    writeFile: window.backend.writeFile,
+    readFile: window.backend.readFile,
+  });
+
+  // TODO write marathon data to local file?
+
+  // TODO make some of these awaits promise all
   // write current run to files
-  async function writeFiles() {
+  async function updateFiles() {
     // current run
     for (let i = 0; i < 4; i++) {
       if ($currentDeck[deckIndex].runners[i]) {
-        await window.backend.writeFile(
+        await $fileSystem.writeFile(
           `herefordFiles/runner${i}.txt`,
           $currentDeck[deckIndex].runners[i]
         );
       } else {
         // clear file if no runner
-        await window.backend.writeFile(`herefordFiles/runner${i}.txt`, '');
+        await $fileSystem.writeFile(`herefordFiles/runner${i}.txt`, '');
       }
     }
 
-    await window.backend.writeFile(
+    await $fileSystem.writeFile(
       'herefordFiles/game.txt',
       $currentDeck[deckIndex].game
     );
-    await window.backend.writeFile(
+    await $fileSystem.writeFile(
       'herefordFiles/category.txt',
       $currentDeck[deckIndex].category
     );
 
     // TODO convert estimate to real time while fetching api/before write
     if ($currentDeck[deckIndex].estimate) {
-      await window.backend.writeFile(
+      await $fileSystem.writeFile(
         'herefordFiles/estimate.txt',
         $currentDeck[deckIndex].estimate
       );
@@ -53,28 +68,25 @@
     // loop from 1 to 4
     for (let i = 1; i <= 4; i++) {
       if ($currentDeck[deckIndex + i]) {
-        await window.backend.writeFile(
+        await $fileSystem.writeFile(
           `herefordFiles/upcomming/${i}category.txt`,
           $currentDeck[deckIndex + i]?.category
         );
-        await window.backend.writeFile(
+        await $fileSystem.writeFile(
           `herefordFiles/upcomming/${i}game.txt`,
           $currentDeck[deckIndex + i].game
         );
-        await window.backend.writeFile(
+        await $fileSystem.writeFile(
           `herefordFiles/upcomming/${i}runners.txt`,
           $currentDeck[deckIndex + i].runners.join(', ')
         );
       } else {
-        await window.backend.writeFile(
+        await $fileSystem.writeFile(
           `herefordFiles/upcomming/${i}category.txt`,
           ''
         );
-        await window.backend.writeFile(
-          `herefordFiles/upcomming/${i}game.txt`,
-          ''
-        );
-        await window.backend.writeFile(
+        await $fileSystem.writeFile(`herefordFiles/upcomming/${i}game.txt`, '');
+        await $fileSystem.writeFile(
           `herefordFiles/upcomming/${i}runners.txt`,
           ''
         );
@@ -88,16 +100,21 @@
     // on app start
     await window.backend.fileSetup();
 
-    settingJson = JSON.parse(
-      await window.backend.readFile('herefordFiles/settings.json')
+    let fileSettings = await $fileSystem.readFile(
+      'herefordFiles/settings.json'
     );
 
-    if (
-      settingJson &&
-      Object.keys(settingJson).length !== 0 &&
-      Object.getPrototypeOf(settingJson) === Object.prototype
-    ) {
-      settings.set(settingJson);
+    if (fileSettings) {
+      settingJson = JSON.parse(fileSettings);
+
+      if (Object.keys(settingJson).length !== 0) {
+        settings.set(settingJson);
+      }
+    }
+
+    if ($settings.marathonUrl) {
+      // prompt user
+      previousMarathon = true;
     }
   });
 </script>
@@ -136,7 +153,13 @@
       <input id="marathonUrl" type="text" bind:value={marathonUrl} />
       <button
         on:click={async () => {
-          marathonData = await apiHandler(marathonUrl);
+          await apiHandler(marathonUrl);
+          $settings.marathonUrl = marathonUrl;
+
+          $fileSystem.writeFile(
+            'herefordFiles/settings.json',
+            JSON.stringify($settings)
+          );
         }}>Fetch url</button
       >
     </div>
@@ -155,83 +178,104 @@
       { JSON.stringify($currentDeck[deckIndex], undefined, 2) }
 	  </pre> -->
   {:else}
-    <p>No deck detected</p>
+    <p>No marathon detected</p>
   {/if}
 
-  <div>
-    <button
-      on:click={() => {
-        if ($currentDeck.length > 0) {
-          deckIndex > 0 ? deckIndex-- : 0;
-          writeFiles();
-        }
-      }}>Previous run</button
-    >
-    <button
-      on:click={() => {
-        if ($currentDeck.length > 0) {
-          deckIndex < $currentDeck.length ? deckIndex++ : $currentDeck.length;
-          writeFiles();
-        }
-      }}>Next run</button
-    >
+  <Modal open={previousMarathon}>
+    <div class="previousMarathon">
+      <p>Found a previous marathon, want to load it?</p>
 
-    <button
-      on:click={() => {
-        deckIndex < $currentDeck.length ? deckIndex++ : $currentDeck.length;
-      }}>Silent next run</button
-    >
+      <button
+        on:click={async () => {
+          // load marathon
+          await apiHandler($settings.marathonUrl);
+
+          previousMarathon = false;
+        }}>load previous marathon</button
+      >
+      <button
+        on:click={() => {
+          previousMarathon = false;
+        }}>new marathon</button
+      >
+    </div>
+  </Modal>
+
+  <div class="optionButtons">
+    <div>
+      <button
+        on:click={() => {
+          if ($currentDeck.length > 0) {
+            deckIndex > 0 ? deckIndex-- : 0;
+            updateFiles();
+          }
+        }}>Previous run</button
+      >
+      <button
+        on:click={() => {
+          if ($currentDeck.length > 0) {
+            deckIndex < $currentDeck.length ? deckIndex++ : $currentDeck.length;
+            updateFiles();
+          }
+        }}>Next run</button
+      >
+
+      <button
+        on:click={() => {
+          deckIndex < $currentDeck.length ? deckIndex++ : $currentDeck.length;
+        }}>Silent next run</button
+      >
+    </div>
   </div>
 
-  <div>
-    <label for="jumpIndex">Jump to index</label>
+  <div class="jumpIndex">
     <div>
       <input id="jumpIndex" type="number" bind:value={jumpIndex} />
       <button
         on:click={() => {
           deckIndex = clamp(0, $currentDeck.length - 1, jumpIndex);
-          writeFiles();
+          updateFiles();
         }}>Jump to run</button
       >
     </div>
   </div>
 
   <Collapsable label="advanced">
-    <div class="options--advanced">
-      <button
-        on:click={() => {
-          deckIndex = clamp(0, $currentDeck.length - 1, jumpIndex);
-        }}>Silent jump to run</button
-      >
+    <div class="optionButtons options--advanced">
+      <div class="jumpIndex">
+        <div class="buttonSection">
+          <button
+            on:click={() => {
+              deckIndex = 0;
+            }}>Back to start</button
+          >
+          <button
+            on:click={async () => {
+              await apiHandler(marathonUrl);
+            }}>reload runs</button
+          >
+        </div>
 
-      <button
-        on:click={() => {
-          deckIndex = 0;
-        }}>Back to start</button
-      >
-      <button
-        on:click={async () => {
-          marathonData = await apiHandler(marathonUrl);
-        }}>reload runs</button
-      >
+        <div>
+          <input id="jumpIndex" type="number" bind:value={silentJumpIndex} />
+          <button
+            on:click={() => {
+              deckIndex = clamp(0, $currentDeck.length - 1, silentJumpIndex);
+            }}>Silent jump to run</button
+          >
+        </div>
+      </div>
     </div>
   </Collapsable>
 
-  <!-- | n | Continues to the **next** run | -->
-  <!-- | p | Goes back to the **previous** run | -->
-  <!-- | j | makes you **jump** and write to a certain run (more info below) | -->
-  <!-- | sj | **Silent jump**, jumps to a certain run, but doesn't write to files (more info below) | -->
-  <!-- | sn | **Silent next**, does a "next" to the next run, without writing to files | -->
-  <!-- | s | Go back to the **start** of the marathon | -->
-  <!-- | u | Makes you **reload**. Handy for when new runs got added. | -->
-  <!-- | nd | Loads in the **next deck**. | -->
-
-  <SettingsMenu
+  <Modal
     open={settingsOpen}
     on:close={() => {
       settingsOpen = false;
     }}
-  />
+  >
+    <SettingsMenu />
+  </Modal>
 </main>
 
 <style>
@@ -261,10 +305,23 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+
+    margin-right: 12px;
   }
 
   :global(button:hover) {
     background-color: #01e393;
+  }
+
+  .optionButtons {
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 12px;
+  }
+
+  .buttonSection {
+    margin-bottom: 12px;
   }
 
   h1 {
@@ -273,6 +330,20 @@
 
   h2 {
     margin-top: 0;
+  }
+
+  p,
+  label {
+    margin-bottom: 8px;
+  }
+
+  .jumpIndex {
+    margin-bottom: 8px;
+  }
+
+  .jumpIndex input {
+    width: 32px;
+    margin-right: 8px;
   }
 
   header {
@@ -303,6 +374,8 @@
     position: absolute;
     right: 1.5rem;
     top: 1.5rem;
+
+    cursor: pointer;
   }
 
   @media (prefers-reduced-motion: no-preference) {

@@ -4,7 +4,7 @@
 </script>
 
 <div class="collapsible">
-  <div class="collapsible__header">
+  <button class="collapsible__header">
     <label for="col-check">
       <span>{label}</span>
 
@@ -24,7 +24,7 @@
     >
 
     <input id="col-check" type="checkbox" bind:checked={open} />
-  </div>
+  </button>
 
   {#if open}
     <div class="collapsible__content">
@@ -40,10 +40,20 @@
   }
 
   label span {
-    margin-right: 1rem;
+    margin-right: 1.5rem;
   }
 
   input[type='checkbox'] {
     display: none;
+  }
+
+  .collapsible__header {
+    margin-bottom: 8px;
+    cursor: pointer;
+
+    background: none;
+    padding: 0;
+
+    font-size: 1rem;
   }
 </style>
