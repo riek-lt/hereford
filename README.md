@@ -40,10 +40,9 @@ By default hereford will fetch the colomns `Game`, `Category` and `Console` from
 
 ## Future features
 
-- [ ] A more fleshed out GUI
+- [x] A more fleshed out GUI
 - [ ] Where possible automatic stream title/game changes
-- [ ] Changing values live from the program
-- [ ] Automate builds
+- [x] Changing values live from the program
 
 ## Used in marathons
 

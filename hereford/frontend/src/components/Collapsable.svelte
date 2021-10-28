@@ -40,7 +40,7 @@
   }
 
   label span {
-    margin-right: 1.5rem;
+    margin-right: 24px;
   }
 
   input[type='checkbox'] {
@@ -54,6 +54,8 @@
     background: none;
     padding: 0;
 
-    font-size: 1rem;
+    width: 200px;
+
+    font-size: 16px;
   }
 </style>

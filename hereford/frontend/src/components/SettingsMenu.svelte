@@ -40,6 +40,10 @@
 
 <!-- option to disable upcomming updates -->
 <style>
+  h3 {
+    margin-top: 0;
+  }
+
   .settings p {
     margin-bottom: 8px;
   }

@@ -43,9 +43,7 @@
         /></svg
       >
 
-      <div class="content">
-        <slot />
-      </div>
+      <slot />
     </div>
   </div>
 {/if}
@@ -67,25 +65,22 @@
 
   .modal {
     position: relative;
-    width: 40rem;
+    width: 640px;
     max-width: 100%;
     max-height: 100%;
-    margin: 2rem auto;
+
+    margin: 32px auto;
+    padding: 16px;
+
     color: black;
-    border-radius: 0.5rem;
+    border-radius: 4px;
     background: white;
-
-    border-radius: 0.25rem;
-  }
-
-  .content {
-    padding: 1rem;
   }
 
   .close {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 16px;
+    right: 16px;
 
     cursor: pointer;
   }

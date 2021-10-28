@@ -294,7 +294,8 @@
   :global(input) {
     background: none;
 
-    padding: 5px 11px;
+    padding: 4px 12px;
+    font-style: 14px;
     border: 1px solid #000;
     border-radius: 4px;
   }
@@ -351,11 +352,11 @@
     flex-direction: row;
     align-items: center;
 
-    margin-bottom: 1.25rem;
+    margin-bottom: 20px;
   }
 
   header img {
-    height: 3rem;
+    height: 38px;
     width: auto;
 
     margin-right: 16px;
@@ -372,8 +373,8 @@
 
   .settingButton {
     position: absolute;
-    right: 1.5rem;
-    top: 1.5rem;
+    right: 24px;
+    top: 24px;
 
     cursor: pointer;
   }
