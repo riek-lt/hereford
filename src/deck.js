@@ -4,19 +4,32 @@ const data = require('./data.js');
 const colors = require('colors/safe');
 
 const folderName = index.folderName;
+
 const currentGame = './' + folderName + '/deck/currentGame.txt';
 const currentCategory = './' + folderName + '/deck/currentCategory.txt';
 const currentRunner = './' + folderName + '/deck/currentRunner.txt';
+const currentSlug = './' + folderName + '/deck/currentSlug.txt';
+
 const next1Game = './' + folderName + '/deck/next1Game.txt';
 const next1Category = './' + folderName + '/deck/next1Category.txt';
 const next1Runner = './' + folderName + '/deck/next1Runner.txt';
+const next1Slug = './' + folderName + '/deck/next1Slug.txt';
+
 const next2Game = './' + folderName + '/deck/next2Game.txt';
 const next2Category = './' + folderName + '/deck/next2Category.txt';
 const next2Runner = './' + folderName + '/deck/next2Runner.txt';
+const next2Slug = './' + folderName + '/deck/next2Slug.txt';
+
 const next3Game = './' + folderName + '/deck/next3Game.txt';
 const next3Category = './' + folderName + '/deck/next3Category.txt';
 const next3Runner = './' + folderName + '/deck/next3Runner.txt';
-const deckArray = [currentGame, currentCategory, currentRunner, next1Game, next1Category, next1Runner, next2Game, next2Category, next2Runner, next3Game, next3Category, next3Runner];
+const next3Slug = './' + folderName + '/deck/next3Slug.txt';
+
+const deckArray = [ currentGame, currentCategory, currentRunner, currentSlug,
+                    next1Game, next1Category, next1Runner, next1Slug,
+					next2Game, next2Category, next2Runner, next2Slug,
+					next3Game, next3Category, next3Runner, next3Slug ];
+
 const scheduleLength = data.scheduleLength;
 var schedulejson = data.schedulejson;
 const horaroItems = ['Game', 'Category', 'Runners']
@@ -43,7 +56,11 @@ module.exports = {
   },
   fill: function(currentRun) {
     schedulejson = data.schedulejson;
-    for (var i = 0; i < 12; i++) {
+	
+	// deckruns length is 4 X 4 = 16
+	// Category, Name, Runner, Slug
+	// Current, next1, next2, next3
+    for (var i = 0; i < 16; i++) {
       deckruns[i] = '';
     }
     if (data.method === 'oengus') {
@@ -51,19 +68,33 @@ module.exports = {
         for (var i = 0; i < 4; i++) {
           if ((currentRun + i) < data.scheduleLength) {
             if (schedulejson.lines[currentRun + i].gameName !== null) {
-              deckruns[(i * 3) + 0] = schedulejson.lines[currentRun + i].gameName;
+              deckruns[(i * 4) + 0] = schedulejson.lines[currentRun + i].gameName;
             }
             if (schedulejson.lines[currentRun + i].categoryName !== null) {
-              deckruns[(i * 3) + 1] = schedulejson.lines[currentRun + i].categoryName;
+              deckruns[(i * 4) + 1] = schedulejson.lines[currentRun + i].categoryName;
             }
             if (schedulejson.lines[currentRun + i].runners[0] !== null) {
               try {
                 for (var k = 0; k < schedulejson.lines[currentRun + i].runners.length; k++) {
-                  deckruns[(i * 3) + 2] += schedulejson.lines[currentRun + i].runners[k].username + ', ';
+                  deckruns[(i * 4) + 2] += schedulejson.lines[currentRun + i].runners[k].username + ', ';
                 }
-                deckruns[(i * 3) + 2] = deckruns[(i * 3) + 2].substring(0, deckruns[(i * 3) + 2].length-2);
+                deckruns[(i * 4) + 2] = deckruns[(i * 4) + 2].substring(0, deckruns[(i * 4) + 2].length-2);
               } catch (err) {}
             }
+			
+            if (schedulejson.lines[currentRun + i].runners !== null) {
+              try {
+                deckruns[(i * 4) + 3] = schedulejson.lines[currentRun + i].gameName + " - " +
+			    						schedulejson.lines[currentRun + i].categoryName + " by " +
+			    						schedulejson.lines[currentRun + i].runners[0].username;
+			  
+			    if (schedulejson.lines[currentRun + i].runners.length > 1) {
+                  for (var k = 1; k < schedulejson.lines[currentRun + i].runners.length; k++) {
+                    deckruns[(i * 4) + 3] += " Vs. " + schedulejson.lines[currentRun + i].runners[k].username;
+                  }
+			    }
+			  } catch (err) {}
+			}
           }
         }
       } catch (err) {
@@ -80,9 +111,9 @@ module.exports = {
       }
       for (var i = 0; i < 4; i++) {
         if ((currentRun + i) < data.scheduleLength) {
-          deckruns[(i * 3) + 0] = schedulejson.data.items[currentRun + i].data[horaroColumns[0]];
-          deckruns[(i * 3) + 1] = schedulejson.data.items[currentRun + i].data[horaroColumns[1]];
-          deckruns[(i * 3) + 2] = schedulejson.data.items[currentRun + i].data[horaroColumns[2]];
+          deckruns[(i * 4) + 0] = schedulejson.data.items[currentRun + i].data[horaroColumns[0]];
+          deckruns[(i * 4) + 1] = schedulejson.data.items[currentRun + i].data[horaroColumns[1]];
+          deckruns[(i * 4) + 2] = schedulejson.data.items[currentRun + i].data[horaroColumns[2]];
         }
       }
     }
@@ -91,7 +122,7 @@ module.exports = {
 }
 
 function writeToFiles() {
-  for (var i = 0; i < 12; i++) {
+  for (var i = 0; i < 16; i++) {
     try {
       fs.writeFileSync(deckArray[i], deckruns[i], (err) => {
         if (err) throw err;
@@ -103,7 +134,7 @@ function writeToFiles() {
 }
 
 function clearFiles() {
-  for (var i = 0; i < 12; i++) {
+  for (var i = 0; i < 16; i++) {
     deckruns[i] = ''; //Make sure that all files are emptied before written to again
   }
 }
