@@ -90,7 +90,7 @@ module.exports = {
 			  
 			    if (schedulejson.lines[currentRun + i].runners.length > 1) {
                   for (var k = 1; k < schedulejson.lines[currentRun + i].runners.length; k++) {
-                    deckruns[(i * 4) + 3] += " Vs. " + schedulejson.lines[currentRun + i].runners[k].username;
+                    deckruns[(i * 4) + 3] += " vs. " + schedulejson.lines[currentRun + i].runners[k].username;
                   }
 			    }
 			  } catch (err) {}
