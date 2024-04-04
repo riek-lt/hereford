@@ -6,7 +6,7 @@
 - Automatic Horaro and Oengus schedule import
 - Output to separate text files for use in OBS or other streaming programs.
 - Configurable output for the run's estimate.
-- Gives you text file to show the previous and upcoming 3 runs for use in an intermission/break screen
+- Gives you text file to show the previous and upcoming 3 runs for use in an intermission/break screen (including a slug file for `(game) - (category) by (runner(s))`
 
 # Install
 Just download the .exe from [**releases**](https://github.com/riek-lt/hereford/releases) and open it. This will create a folder with some text-files in it that you use in OBS. Make sure that it is in a folder that doesn't need special writing permissions.
@@ -48,6 +48,8 @@ Note that the first run is #0.
 - [Italian Speedrun Marathon Online](https://oengus.io/marathon/ISMO)
 - [Support Autism Speed Event (SASE)](https://www.twitch.tv/sase_marathon)
 - [Giochi d'un Fiato](https://www.twitch.tv/videos/1144419727?filter=highlights&sort=time)
+- [McRaeathon 2021-2024](https://www.twitch.tv/mcraeathon)
 
 ## Credits
 This program was made by [Riek-lt](https://twitter.com/riek_lt)
+Slug-feature requested/implemented by [KinzyKenzie](https://twitter.com/kinzykenzie)
