@@ -51,5 +51,6 @@ Note that the first run is #0.
 - [McRaeathon 2021-2024](https://www.twitch.tv/mcraeathon)
 
 ## Credits
-This program was made by [Riek-lt](https://twitter.com/riek_lt)
+This program was made by [Riek-lt](https://twitter.com/riek_lt)  
+
 Slug-feature requested/implemented by [KinzyKenzie](https://twitter.com/kinzykenzie)
