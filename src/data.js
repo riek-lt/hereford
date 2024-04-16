@@ -40,7 +40,7 @@ module.exports = {
         for (var l = 0; l < 4; l++) {
           runArray[4 + l] = '';
           try { //Doesn't error the program if run has <4 runners in it
-            runArray[4 + l] = schedulejson.lines[j].runners[l].username;
+            runArray[4 + l] = schedulejson.lines[j].runners[l].displayName;
           } catch (err) {}
         }
         currentRun = runArray[0]; //gameName is set to currentRun
