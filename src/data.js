@@ -96,7 +96,6 @@ module.exports = {
       oengus.apiCall(slug,schedslug) //Calls json data to be retrieved
       setTimeout(function() { //Give time to do an API call
         schedulejson = oengus.schedule; //All json gets put here.
-        console.log(schedulejson);
         scheduleLength = schedulejson.lines.length; //Amount of runs.
         module.exports.runArray = runArray; //Export stuff
         module.exports.scheduleLength = scheduleLength;
