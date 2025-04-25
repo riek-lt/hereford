@@ -24,10 +24,10 @@ module.exports = {
       runArray[i] = ''; //Make sure that all files are emptied before written to again
     }
     if (method === 'oengus') { //Only oengus stuff here
-      if (schedulejson.lines[j].gameName !== null) {
-        runArray[0] = schedulejson.lines[j].gameName;
-        if (schedulejson.lines[j].categoryName !== null) {
-          runArray[1] = schedulejson.lines[j].categoryName;
+      if (schedulejson.lines[j].game !== null) {
+        runArray[0] = schedulejson.lines[j].game;
+        if (schedulejson.lines[j].category !== null) {
+          runArray[1] = schedulejson.lines[j].category;
         } else {
           runArray[1] = '';
         }
@@ -40,7 +40,7 @@ module.exports = {
         for (var l = 0; l < 4; l++) {
           runArray[4 + l] = '';
           try { //Doesn't error the program if run has <4 runners in it
-            runArray[4 + l] = schedulejson.lines[j].runners[l].displayName;
+            runArray[4 + l] = schedulejson.lines[j].runners[l].runnerName;
           } catch (err) {}
         }
         currentRun = runArray[0]; //gameName is set to currentRun
@@ -90,12 +90,13 @@ module.exports = {
       currentRun = runArray[0]; //gameName is set to currentRun
     }
   },
-  call: function(slug) { //Init input from program.
-    methodPick(slug); //Checks if schedule is Oengus or Horaro
+  call: function(slug,schedslug) { //Init input from program.
+    methodPick(slug,schedslug); //Checks if schedule is Oengus or Horaro
     if (method === 'oengus') {
-      oengus.apiCall(slug) //Calls json data to be retrieved
+      oengus.apiCall(slug,schedslug) //Calls json data to be retrieved
       setTimeout(function() { //Give time to do an API call
         schedulejson = oengus.schedule; //All json gets put here.
+        console.log(schedulejson);
         scheduleLength = schedulejson.lines.length; //Amount of runs.
         module.exports.runArray = runArray; //Export stuff
         module.exports.scheduleLength = scheduleLength;
@@ -103,7 +104,7 @@ module.exports = {
         module.exports.schedulejson = schedulejson;
       }, 2000)
     } else if (method === 'horaro') {
-      horaro.apiCall(slug); //Exactly the same as above but horaro
+      horaro.apiCall(slug,schedslug); //Exactly the same as above but horaro
       setTimeout(function() {
         schedulejson = horaro.schedule;
         scheduleLength = schedulejson.data.items.length;
@@ -124,7 +125,7 @@ module.exports = {
   }
 };
 
-function methodPick(slug) { //Checks whether the input is horaro or oengus
+function methodPick(slug,schedslug) { //Checks whether the input is horaro or oengus
   if (slug.includes('horaro')) { //The method is literally "is it a horaro url lol"
     method = 'horaro';
     console.log('Found Horaro schedule');

@@ -29,6 +29,7 @@ const txtArray = [txtGame, txtCategory, txtEstimate, txtConsole, txtRunner1, txt
 var userinput = ""; //User Input
 var userinputsub = ""; //Second user input for (silent) jumps. Not necessary
 var slug = ""; //input for what schedule
+var schedslug = ""; //input for what schedule
 var safety = 0; //Is a backup for the run number for if something goes wrong
 var currentRun = 0; // Current run number state
 var savedRun = ""; //String for current game name. Used for save feature
@@ -46,7 +47,7 @@ var helpString = 'You can use both ' + colors.green('green') + ' letter or words
 
 // Start of program
 slug = readline.question('Please post the oengus slug OR full horaro URL for the marathon: ');
-data.call(slug); //Gets all data from the schedule
+data.call(slug,schedslug); //Gets all data from the schedule
 setTimeout(function() { //Gives time to do an API call
   initFiles();
   console.log(helpString); //Shows commands
@@ -143,6 +144,9 @@ function writeToFiles(j, k) { //Writes to files. j= run number, k = unused
         if (data.runArray[i] != '') { //Primarily used to not display empty player 2/3/4, but are written
           console.log(colors.yellow(txtArray[i]) + colors.cyan(' -> ') + colors.green(data.runArray[i]));
         }
+        console.log("DATAPOINTS");
+        console.log(txtArray[i]);
+        console.log(data.runArray[i]);
         fs.writeFileSync(txtArray[i], data.runArray[i], (err) => {
           if (err) throw err;
           console.log("bla");

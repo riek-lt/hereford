@@ -15,9 +15,9 @@ const getJSON = async url => {
 }
 
 module.exports = {
-    apiCall: function (slug) {
-        console.log("Fetching schedule data from " + slug);
-        getJSON("https://oengus.io/api/v1/marathons/" + slug + "/schedule").then(data => {
+    apiCall: function (slug, schedslug) {
+        console.log("Fetching schedule data from " + slug + "/" + schedslug);
+        getJSON("https://oengus.io/api/v2/marathons/" + slug.split("/")[4] + "/schedules/for-slug/" + slug.split("/")[6]).then(data => {
           schedulejson = data;
           module.exports.schedule = schedulejson;
         }).catch(error => {
