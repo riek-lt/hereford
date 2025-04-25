@@ -144,9 +144,6 @@ function writeToFiles(j, k) { //Writes to files. j= run number, k = unused
         if (data.runArray[i] != '') { //Primarily used to not display empty player 2/3/4, but are written
           console.log(colors.yellow(txtArray[i]) + colors.cyan(' -> ') + colors.green(data.runArray[i]));
         }
-        console.log("DATAPOINTS");
-        console.log(txtArray[i]);
-        console.log(data.runArray[i]);
         fs.writeFileSync(txtArray[i], data.runArray[i], (err) => {
           if (err) throw err;
           console.log("bla");
