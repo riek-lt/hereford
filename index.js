@@ -1,4 +1,5 @@
-//pkg index.js --output Hereford
+//pkg -t node*-win-x64 index.js --output Hereford
+
 
 const folderName = "textfiles";
 module.exports.folderName = folderName;
