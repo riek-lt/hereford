@@ -47,7 +47,7 @@ var helpString = 'You can use both ' + colors.green('green') + ' letter or words
   colors.green('"nd"') + ' to go to the ' + colors.green('next deck') + ' of runs in your intermission';
 
 // Start of program
-slug = readline.question('Please post the oengus slug OR full horaro URL for the marathon: ');
+slug = readline.question('Please post the oengus schedule URL OR full horaro URL for the marathon: ');
 data.call(slug,schedslug); //Gets all data from the schedule
 setTimeout(function() { //Gives time to do an API call
   initFiles();
