@@ -67,16 +67,16 @@ module.exports = {
       try {
         for (var i = 0; i < 4; i++) {
           if ((currentRun + i) < data.scheduleLength) {
-            if (schedulejson.lines[currentRun + i].gameName !== null) {
-              deckruns[(i * 4) + 0] = schedulejson.lines[currentRun + i].gameName;
+            if (schedulejson.lines[currentRun + i].game !== null) {
+              deckruns[(i * 4) + 0] = schedulejson.lines[currentRun + i].game;
             }
-            if (schedulejson.lines[currentRun + i].categoryName !== null) {
-              deckruns[(i * 4) + 1] = schedulejson.lines[currentRun + i].categoryName;
+            if (schedulejson.lines[currentRun + i].category !== null) {
+              deckruns[(i * 4) + 1] = schedulejson.lines[currentRun + i].category;
             }
             if (schedulejson.lines[currentRun + i].runners[0] !== null) {
               try {
                 for (var k = 0; k < schedulejson.lines[currentRun + i].runners.length; k++) {
-                  deckruns[(i * 4) + 2] += schedulejson.lines[currentRun + i].runners[k].displayName + ', ';
+                  deckruns[(i * 4) + 2] += schedulejson.lines[currentRun + i].runners[k].runnerName + ', ';
                 }
                 deckruns[(i * 4) + 2] = deckruns[(i * 4) + 2].substring(0, deckruns[(i * 4) + 2].length-2);
               } catch (err) {}
@@ -84,9 +84,9 @@ module.exports = {
 			
             if (schedulejson.lines[currentRun + i].runners !== null) {
               try {
-                deckruns[(i * 4) + 3] = schedulejson.lines[currentRun + i].gameName + " - " +
-			    						schedulejson.lines[currentRun + i].categoryName + " by " +
-			    						schedulejson.lines[currentRun + i].runners[0].displayName;
+                deckruns[(i * 4) + 3] = schedulejson.lines[currentRun + i].game + " - " +
+			    						schedulejson.lines[currentRun + i].category + " by " +
+			    						schedulejson.lines[currentRun + i].runners[0].runnerName;
 			  
 			    if (schedulejson.lines[currentRun + i].runners.length > 1) {
                   for (var k = 1; k < schedulejson.lines[currentRun + i].runners.length; k++) {
